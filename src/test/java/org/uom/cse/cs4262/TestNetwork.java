@@ -1,27 +1,25 @@
 package org.uom.cse.cs4262;
 
 import org.junit.Test;
+import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
+
+import java.util.UUID;
 
 public class TestNetwork {
 
     @Test
     public void test() {
-        int nodeCount = 2;
-        int nodePort = 44444;
-        Credential bootstrapServerCredential = new Credential("192.168.43.169", 55555, "admin");
+        Credential bootstrapServerCredential = new Credential(Constant.IP_BOOTSTRAP_SERVER, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
 
-        for (int i = 1; i <= nodeCount; i++) {
+        // Generate self credentials
+        // Generate random username
+        UUID randomUsername = UUID.randomUUID();
+        Credential nodeCredential = new Credential(Constant.IP_NODE, Constant.PORT_NODE, String.valueOf(randomUsername));
 
-            Credential nodeCredential = new Credential("127.0.0.1", nodePort, "child");
-            NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
+        // Initiate
+        NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
 
-            int j = 0;
 
-            while (true) {
-                System.out.println("Sending " + j++);
-                nodeOpsUDP.register();
-            }
-        }
     }
 }
