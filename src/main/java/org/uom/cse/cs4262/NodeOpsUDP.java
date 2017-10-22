@@ -11,6 +11,12 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+/**
+ * @author Chanaka Lakmal
+ * @date 22/10/2017
+ * @since 1.0
+ */
+
 public class NodeOpsUDP implements NodeOps, Runnable {
 
     int i = 0;
