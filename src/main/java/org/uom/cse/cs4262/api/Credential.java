@@ -10,6 +10,12 @@ public class Credential {
     private int port;
     private String username;
 
+    public Credential(String ip, int port, String username) {
+        this.ip = ip;
+        this.port = port;
+        this.username = username;
+    }
+
     public String getIp() {
         return ip;
     }
