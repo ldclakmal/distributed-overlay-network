@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class StatRecord {
     private String searchQuery;
-    private Date trigeredTime;
+    private Date triggeredTime;
     private Date deliveryTime;
     private int hopsRequired;
     private Credential servedNode;
@@ -22,12 +22,12 @@ public class StatRecord {
         this.searchQuery = searchQuery;
     }
 
-    public Date getTrigeredTime() {
-        return trigeredTime;
+    public Date getTriggeredTime() {
+        return triggeredTime;
     }
 
-    public void setTrigeredTime(Date trigeredTime) {
-        this.trigeredTime = trigeredTime;
+    public void setTriggeredTime(Date triggeredTime) {
+        this.triggeredTime = triggeredTime;
     }
 
     public Date getDeliveryTime() {
