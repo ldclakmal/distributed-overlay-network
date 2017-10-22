@@ -1,8 +1,11 @@
 package org.uom.cse.cs4262;
 
+import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.Node;
 import org.uom.cse.cs4262.api.NodeOps;
+import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.request.RegisterRequest;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,7 +22,6 @@ import java.util.ArrayList;
 
 public class NodeOpsUDP implements NodeOps, Runnable {
 
-    int i = 0;
     private Node node;
     private Credential bootstrapServerCredential;
     private DatagramSocket socket;
@@ -45,7 +47,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             datagramPacket = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(datagramPacket);
-                Parser.parse(new String(datagramPacket.getData(), 0, datagramPacket.getLength()));
+                Message response = Parser.parse(new String(datagramPacket.getData(), 0, datagramPacket.getLength()));
+                //TODO: do necessary actions for response
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -64,7 +67,9 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void register() {
-        String msg = "TEST MESSAGE";
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setNode(node);
+        String msg = registerRequest.getMessageAsString(Constant.Command.REG);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(bootstrapServerCredential.getIp()), bootstrapServerCredential.getPort()));
         } catch (IOException e) {
