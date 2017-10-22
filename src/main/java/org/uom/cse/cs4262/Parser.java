@@ -15,6 +15,7 @@ import java.util.StringTokenizer;
 public class Parser {
 
     public static Message parse(String message) {
+        System.out.println("Message received : " + message);
         StringTokenizer st = new StringTokenizer(message, " ");
 
         String length = st.nextToken();

@@ -17,8 +17,12 @@ public class TestNetwork {
         UUID randomUsername = UUID.randomUUID();
         Credential nodeCredential = new Credential(Constant.IP_NODE, Constant.PORT_NODE, String.valueOf(randomUsername));
 
-        // Initiate
+        // Initiate the thread for UDP connection
         NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
+
+        // Register in network
+        nodeOpsUDP.register();
+
 
 
     }
