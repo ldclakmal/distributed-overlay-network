@@ -159,7 +159,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
             if (!searchResult.isEmpty()) {
-                //TODO: create search response object and send it to searchRequest.getNode().getCredentials() after @Chandu
+                SearchResponse searchResponse = new SearchResponse(searchResult.size(), searchRequest.getNode().getCredential(), searchRequest.incHops(), searchResult);
+                searchOk(searchResponse);
             } else {
                 for (Credential credential : node.getRoutingTable()) {
                     search(credential, searchRequest.getFileName(), searchRequest.incHops());
