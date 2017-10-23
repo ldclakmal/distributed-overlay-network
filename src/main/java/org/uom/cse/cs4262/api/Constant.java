@@ -18,10 +18,15 @@ public class Constant {
 
         public final static String REG = "REG";
         public final static String REGOK = "REGOK";
+        public final static String UNREG = "UNREG";
+        public final static String UNREGOK = "UNREGOK";
         public final static String JOIN = "JOIN";
         public final static String JOINOK = "JOINOK";
-        public final static String SEARCH = "SEARCH";
-        public final static String SEARCHOK = "SEARCHOK";
+        public final static String LEAVE = "LEAVE";
+        public final static String LEAVEOK = "LEAVEOK";
+        public final static String SEARCH = "SER";
+        public final static String SEARCHOK = "SEROK";
+        public final static String ERROR = "ERROR";
     }
 
 }
