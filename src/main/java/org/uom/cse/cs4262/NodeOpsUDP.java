@@ -166,6 +166,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                 searchOk(searchResponse);
             } else {
                 for (Credential credential : node.getRoutingTable()) {
+                    searchRequest.setCredential(credential);
                     searchRequest.setHops(searchRequest.incHops());
                     search(searchRequest);
                 }
