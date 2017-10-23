@@ -23,4 +23,10 @@ public class JoinResponse extends Message {
     public void setValue(int value) {
         this.value = value;
     }
+
+    @Override
+    public String getMessageAsString(String message) {
+        message += " " + this.getValue();
+        return super.getMessageAsString(message);
+    }
 }
