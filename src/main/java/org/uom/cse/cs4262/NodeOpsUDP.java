@@ -8,6 +8,7 @@ import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.JoinRequest;
 import org.uom.cse.cs4262.api.message.request.RegisterRequest;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
+import org.uom.cse.cs4262.api.message.response.JoinResponse;
 import org.uom.cse.cs4262.api.message.response.RegisterResponse;
 import org.uom.cse.cs4262.api.message.response.SearchResponse;
 
@@ -105,8 +106,14 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void joinOk() {
-
+    public void joinOk(Credential senderCredentials) {
+        JoinResponse joinResponse = new JoinResponse(0);
+        String msg = joinResponse.getMessageAsString(Constant.Command.JOINOK);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredentials.getIp()), senderCredentials.getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -143,10 +150,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     public void processResponse(Message response) {
         if (response instanceof RegisterResponse) {
             RegisterResponse registerResponse = (RegisterResponse) response;
-            List<Node> nodeList = registerResponse.getNodes();
+            List<Credential> credentialList = registerResponse.getNodes();
             ArrayList<Credential> routingTable = new ArrayList();
-            for (Node node : nodeList) {
-                routingTable.add(node.getCredential());
+            for (Credential credential : credentialList) {
+                routingTable.add(credential);
             }
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);

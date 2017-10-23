@@ -22,7 +22,7 @@ public interface NodeOps {
 
     void join(Credential credential);
 
-    void joinOk();
+    void joinOk(Credential senderCredentials);
 
     void leave();
 
