@@ -1,8 +1,9 @@
 package org.uom.cse.cs4262.api.message.response;
 
-import org.uom.cse.cs4262.api.Node;
+import org.uom.cse.cs4262.api.Credential;
+import org.uom.cse.cs4262.api.message.Message;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chandu Herath
@@ -10,11 +11,11 @@ import java.util.ArrayList;
  * @since 1.0
  */
 
-public class SearchResponse {
+public class SearchResponse extends Message {
     private int noOfFiles;
-    private Node resultNode;
+    private Credential credential;
     private int hops;
-    private ArrayList<String> fileList;
+    private List<String> fileList;
 
     public int getNoOfFiles() {
         return noOfFiles;
@@ -24,12 +25,12 @@ public class SearchResponse {
         this.noOfFiles = noOfFiles;
     }
 
-    public Node getResultNode() {
-        return resultNode;
+    public Credential getCredential() {
+        return credential;
     }
 
-    public void setResultNode(Node resultNode) {
-        this.resultNode = resultNode;
+    public void setCredential(Credential credential) {
+        this.credential = credential;
     }
 
     public int getHops() {
@@ -40,11 +41,20 @@ public class SearchResponse {
         this.hops = hops;
     }
 
-    public ArrayList<String> getFileList() {
+    public List<String> getFileList() {
         return fileList;
     }
 
-    public void setFileList(ArrayList<String> fileList) {
+    public void setFileList(List<String> fileList) {
         this.fileList = fileList;
+    }
+
+    @Override
+    public String getMessageAsString(String message) {
+        message += " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
+        for (String file : fileList) {
+            message += " " + file;
+        }
+        return super.getMessageAsString(message);
     }
 }
