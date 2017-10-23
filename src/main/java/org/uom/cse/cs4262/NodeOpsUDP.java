@@ -18,6 +18,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author Chanaka Lakmal
@@ -152,8 +154,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             this.regOk = true;
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
-            boolean isAvailable = isFileAvailable(searchRequest.getFileName(), node.getFileList());
-            if (isAvailable) {
+            List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
+            if (!searchResult.isEmpty()) {
                 //TODO: create search response object and send it to searchRequest.getNode().getCredentials() after @Chandu
             } else {
                 for (Credential credential : node.getRoutingTable()) {
@@ -170,7 +172,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public boolean isFileAvailable(String fileName, ArrayList<String> fileList) {
-        return fileList.contains(fileName);
+    public List<String> checkForFiles(String fileName, ArrayList<String> fileList) {
+        Pattern pattern = Pattern.compile(fileName + "*");
+        return fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
     }
 }

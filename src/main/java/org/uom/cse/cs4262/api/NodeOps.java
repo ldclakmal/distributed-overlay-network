@@ -3,6 +3,7 @@ package org.uom.cse.cs4262.api;
 import org.uom.cse.cs4262.api.message.Message;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chanaka Lakmal
@@ -34,5 +35,5 @@ public interface NodeOps {
 
     boolean isRegOk();
 
-    boolean isFileAvailable(String fileName, ArrayList<String> fileList);
+    List<String> checkForFiles(String fileName, ArrayList<String> fileList);
 }
