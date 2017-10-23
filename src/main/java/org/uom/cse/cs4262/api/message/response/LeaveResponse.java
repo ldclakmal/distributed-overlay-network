@@ -3,16 +3,12 @@ package org.uom.cse.cs4262.api.message.response;
 import org.uom.cse.cs4262.api.message.Message;
 
 /**
- * @author Chandu Herath
- * @date 23/10/2017
- * @since 1.0
+ * Created by Chandu Herath on 23/10/2017.
  */
-
-public class JoinResponse extends Message {
-
+public class LeaveResponse extends Message {
     private int value;
 
-    public JoinResponse(int value) {
+    public LeaveResponse(int value) {
         this.value = value;
     }
 

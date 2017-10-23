@@ -3,7 +3,7 @@ package org.uom.cse.cs4262;
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
-import org.uom.cse.cs4262.api.message.response.RegisterResponse;
+import org.uom.cse.cs4262.api.message.response.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,28 +25,45 @@ public class Parser {
         String command = st.nextToken();
 
         if (command.equals(Constant.Command.REGOK)) {
-            int numOfNodes  = Integer.parseInt(st.nextToken());
+            int numOfNodes = Integer.parseInt(st.nextToken());
             String ip;
             int port;
             List<Credential> nodes = new ArrayList<>();
-            for(int i = 0; i< numOfNodes;i++){
+            for (int i = 0; i < numOfNodes; i++) {
                 ip = st.nextToken();
                 port = Integer.parseInt(st.nextToken());
-                nodes.add(new Credential(ip,port,null));
+                nodes.add(new Credential(ip, port, null));
             }
-            RegisterResponse registerResponse = new RegisterResponse(numOfNodes,nodes);
+            RegisterResponse registerResponse = new RegisterResponse(numOfNodes, nodes);
             //TODO: split the message and create registerResponse object. Refer BootstrapServer.java class for tokenize
             return registerResponse;
-        }else if(command.equals(Constant.Command.UNREGOK)){
 
-        }else if(command.equals(Constant.Command.JOINOK)){
+        } else if (command.equals(Constant.Command.UNREGOK)) {
+            int value = Integer.parseInt(st.nextToken());
+            return new UnregisterResponse(value);
 
-        }else if(command.equals(Constant.Command.LEAVEOK)){
+        } else if (command.equals(Constant.Command.JOINOK)) {
+            int value = Integer.parseInt(st.nextToken());
+            return new JoinResponse(value);
 
-        }else if(command.equals(Constant.Command.SEARCHOK)){
+        } else if (command.equals(Constant.Command.LEAVEOK)) {
+            int value = Integer.parseInt(st.nextToken());
+            return new LeaveResponse(value);
 
-        }else if(command.equals(Constant.Command.ERROR)){
+        } else if (command.equals(Constant.Command.SEARCHOK)) {
+            int numOfFiles = Integer.parseInt(st.nextToken());
+            String ip = st.nextToken();
+            int port = Integer.parseInt(st.nextToken());
+            int hops = Integer.parseInt(st.nextToken());
+            List<String> fileList = new ArrayList<>();
+            for (int i = 0; i < numOfFiles; i++) {
+                fileList.add(st.nextToken());
+            }
+            Credential endNodeCredentials = new Credential(ip, port, null);
+            return new SearchResponse(numOfFiles, endNodeCredentials, hops, fileList);
 
+        } else if (command.equals(Constant.Command.ERROR)) {
+            //TODO handle error response @Chandu
 
         }
 
