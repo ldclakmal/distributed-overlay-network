@@ -19,7 +19,7 @@ public class Constant {
         public final static String REG = "REG";
         public final static String REGOK = "REGOK";
         public final static String UNREG = "UNREG";
-        public final static String UNREGOK = "UNREGOK";
+        public final static String UNREGOK = "UNROK";
         public final static String JOIN = "JOIN";
         public final static String JOINOK = "JOINOK";
         public final static String LEAVE = "LEAVE";
