@@ -1,5 +1,7 @@
 package org.uom.cse.cs4262.api;
 
+import org.uom.cse.cs4262.api.message.Message;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -31,5 +33,7 @@ public abstract class NodeOps {
         return (ArrayList<String>) fileList.subList(0, 5);
     }
 
-    public abstract void processResponse();
+    public abstract void processResponse(Message response);
+
+    public abstract boolean isRegOk();
 }

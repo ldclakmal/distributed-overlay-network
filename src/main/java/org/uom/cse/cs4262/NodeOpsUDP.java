@@ -6,6 +6,7 @@ import org.uom.cse.cs4262.api.Node;
 import org.uom.cse.cs4262.api.NodeOps;
 import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.RegisterRequest;
+import org.uom.cse.cs4262.api.message.response.RegisterResponse;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -13,6 +14,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chanaka Lakmal
@@ -25,6 +27,7 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
     private Node node;
     private Credential bootstrapServerCredential;
     private DatagramSocket socket;
+    private boolean regOk = false;
 
     public NodeOpsUDP(Credential bootstrapServerCredential, Credential nodeCredential) {
         this.bootstrapServerCredential = bootstrapServerCredential;
@@ -49,7 +52,7 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
             try {
                 socket.receive(datagramPacket);
                 Message response = Parser.parse(new String(datagramPacket.getData(), 0, datagramPacket.getLength()));
-                //TODO: do necessary actions for response
+                processResponse(response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -99,12 +102,28 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
     }
 
     @Override
-    public void processResponse() {
-
+    public void processResponse(Message response) {
+        if (response instanceof RegisterResponse) {
+            RegisterResponse registerResponse = (RegisterResponse) response;
+            List<Node> nodeList = registerResponse.getNodes();
+            ArrayList<Credential> routingTable = new ArrayList();
+            for (Node node : nodeList) {
+                routingTable.add(node.getCredential());
+            }
+            //TODO: check whether the received nodes are alive before adding to routing table
+            this.node.setRoutingTable(routingTable);
+            this.regOk = true;
+        }
+        //TODO: proceed with other response messages after @Chandu
     }
 
     @Override
     public ArrayList<String> createFileList() {
         return super.createFileList();
+    }
+
+    @Override
+    public boolean isRegOk() {
+        return regOk;
     }
 }
