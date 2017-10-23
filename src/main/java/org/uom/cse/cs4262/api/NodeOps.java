@@ -20,9 +20,13 @@ public interface NodeOps {
 
     void join(Credential credential);
 
+    void joinOk();
+
     void leave();
 
     void search(Credential credential);
+
+    void searchOk();
 
     ArrayList<String> createFileList();
 

@@ -102,6 +102,11 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
+    public void joinOk() {
+
+    }
+
+    @Override
     public void leave() {
 
     }
@@ -116,6 +121,11 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void searchOk() {
+
     }
 
     @Override
