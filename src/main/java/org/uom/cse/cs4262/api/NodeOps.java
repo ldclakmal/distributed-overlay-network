@@ -29,7 +29,7 @@ public interface NodeOps {
 
     void searchOk();
 
-    ArrayList<String> createFileList();
+    List<String> createFileList();
 
     void processResponse(Message response);
 

@@ -39,7 +39,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
         this.node = new Node();
         node.setCredential(nodeCredential);
-        node.setFileList(createFileList());
+        node.setFileList((ArrayList<String>) createFileList());
         node.setRoutingTable(new ArrayList());
         node.setStatTable(new ArrayList());
 
@@ -131,13 +131,13 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public ArrayList<String> createFileList() {
+    public List<String> createFileList() {
         ArrayList<String> fileList = new ArrayList<>();
         fileList.add("Twilight");
         fileList.add("Jack");
         //TODO: add all the files
         Collections.shuffle(fileList);
-        return (ArrayList<String>) fileList.subList(0, 5);
+        return fileList.subList(0, 5);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public List<String> checkForFiles(String fileName, ArrayList<String> fileList) {
-        Pattern pattern = Pattern.compile(fileName + "*");
+        Pattern pattern = Pattern.compile(fileName);
         return fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
     }
 }
