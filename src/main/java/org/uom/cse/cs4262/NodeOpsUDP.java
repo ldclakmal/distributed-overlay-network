@@ -152,6 +152,16 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
+        } else if (response instanceof SearchRequest) {
+            SearchRequest searchRequest = (SearchRequest) response;
+            boolean isAvailable = isFileAvailable(searchRequest.getFileName(), node.getFileList());
+            if (isAvailable) {
+                //TODO: create search response object and send it to searchRequest.getNode().getCredentials() after @Chandu
+            } else {
+                for (Credential credential : node.getRoutingTable()) {
+                    search(credential);
+                }
+            }
         }
         //TODO: proceed with other response messages after @Chandu
     }
