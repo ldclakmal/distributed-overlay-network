@@ -19,4 +19,8 @@ public interface NodeOps {
     void leave();
 
     void search();
+
+    void addFiles();
+
+    void processResponse();
 }

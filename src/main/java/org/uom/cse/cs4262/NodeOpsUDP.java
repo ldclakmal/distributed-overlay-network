@@ -35,6 +35,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         node.setRoutingTable(new ArrayList());
         node.setStatTable(new ArrayList());
 
+        this.addFiles();
         this.start();
     }
 
@@ -95,6 +96,15 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void search() {
+
+    }
+
+    @Override
+    public void addFiles() {
+    }
+
+    @Override
+    public void processResponse() {
 
     }
 }
