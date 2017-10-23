@@ -16,6 +16,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
  * @since 1.0
  */
 
-public class NodeOpsUDP extends NodeOps implements Runnable {
+public class NodeOpsUDP implements NodeOps, Runnable {
 
     private Node node;
     private Credential bootstrapServerCredential;
@@ -118,6 +119,16 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
     }
 
     @Override
+    public ArrayList<String> createFileList() {
+        ArrayList<String> fileList = new ArrayList<>();
+        fileList.add("Twilight");
+        fileList.add("Jack");
+        //TODO: add all the files
+        Collections.shuffle(fileList);
+        return (ArrayList<String>) fileList.subList(0, 5);
+    }
+
+    @Override
     public void processResponse(Message response) {
         if (response instanceof RegisterResponse) {
             RegisterResponse registerResponse = (RegisterResponse) response;
@@ -134,12 +145,12 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
     }
 
     @Override
-    public ArrayList<String> createFileList() {
-        return super.createFileList();
+    public boolean isRegOk() {
+        return regOk;
     }
 
     @Override
-    public boolean isRegOk() {
-        return regOk;
+    public boolean isFileAvailable(String fileName, ArrayList<String> fileList) {
+        return fileList.contains(fileName);
     }
 }

@@ -3,7 +3,6 @@ package org.uom.cse.cs4262.api;
 import org.uom.cse.cs4262.api.message.Message;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * @author Chanaka Lakmal
@@ -11,29 +10,25 @@ import java.util.Collections;
  * @since 1.0
  */
 
-public abstract class NodeOps {
+public interface NodeOps {
 
-    public abstract void start();
+    void start();
 
-    public abstract void register();
+    void register();
 
-    public abstract void unRegister();
+    void unRegister();
 
-    public abstract void join(Credential credential);
+    void join(Credential credential);
 
-    public abstract void leave();
+    void leave();
 
-    public abstract void search(Credential credential);
+    void search(Credential credential);
 
-    public ArrayList<String> createFileList() {
-        ArrayList<String> fileList = new ArrayList<>();
-        fileList.add("Twilight");
-        fileList.add("Jack");
-        Collections.shuffle(fileList);
-        return (ArrayList<String>) fileList.subList(0, 5);
-    }
+    ArrayList<String> createFileList();
 
-    public abstract void processResponse(Message response);
+    void processResponse(Message response);
 
-    public abstract boolean isRegOk();
+    boolean isRegOk();
+
+    boolean isFileAvailable(String fileName, ArrayList<String> fileList);
 }
