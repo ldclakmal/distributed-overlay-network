@@ -14,9 +14,9 @@ public interface NodeOps {
 
     void unRegister();
 
-    void join();
+    void join(Credential credential);
 
     void leave();
 
-    void search();
+    void search(Credential credential);
 }

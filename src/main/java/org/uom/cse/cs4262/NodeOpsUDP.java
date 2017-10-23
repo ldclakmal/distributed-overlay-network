@@ -5,7 +5,9 @@ import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.Node;
 import org.uom.cse.cs4262.api.NodeOps;
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.request.JoinRequest;
 import org.uom.cse.cs4262.api.message.request.RegisterRequest;
+import org.uom.cse.cs4262.api.message.request.SearchRequest;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -84,8 +86,15 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void join() {
-
+    public void join(Credential neighbourNode) {
+        JoinRequest joinRequest = new JoinRequest();
+        joinRequest.setNode(node);
+        String msg = joinRequest.getMessageAsString(Constant.Command.JOIN);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -94,7 +103,14 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void search() {
-
+    public void search(Credential neighbourNode) {
+        SearchRequest searchRequest = new SearchRequest();
+        searchRequest.setNode(node);
+        String msg = searchRequest.getMessageAsString(Constant.Command.SEARCH);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
