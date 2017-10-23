@@ -5,7 +5,8 @@ package org.uom.cse.cs4262.api.message.response;
  * @date 23/10/2017
  * @since 1.0
  */
-public class UnregisterResponce {
+public class UnregisterResponse {
+
     private int value;
 
     public int getValue() {

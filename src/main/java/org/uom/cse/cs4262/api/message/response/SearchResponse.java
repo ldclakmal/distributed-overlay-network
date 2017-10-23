@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 public class SearchResponse extends Message {
+
     private int noOfFiles;
     private Credential credential;
     private int hops;

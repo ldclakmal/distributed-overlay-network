@@ -1,6 +1,6 @@
 package org.uom.cse.cs4262.api.message.request;
 
-import org.uom.cse.cs4262.api.Node;
+import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 
 /**
@@ -9,16 +9,17 @@ import org.uom.cse.cs4262.api.message.Message;
  * @since 1.0
  */
 public class SearchRequest extends Message {
-    private Node node;
+
+    private Credential credential;
     private String fileName;
     private int hops;
 
-    public Node getNode() {
-        return node;
+    public Credential getCredential() {
+        return credential;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public void setCredential(Credential credential) {
+        this.credential = credential;
     }
 
     public String getFileName() {
@@ -39,7 +40,7 @@ public class SearchRequest extends Message {
 
     @Override
     public String getMessageAsString(String message) {
-        message += " " + this.getNode().getCredential().getIp() + " " + this.getNode().getCredential().getPort() + " " + this.getFileName() + " " + this.getHops();
+        message += " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getFileName() + " " + this.getHops();
         return super.getMessageAsString(message);
     }
 

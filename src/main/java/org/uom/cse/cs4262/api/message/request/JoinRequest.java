@@ -1,6 +1,6 @@
 package org.uom.cse.cs4262.api.message.request;
 
-import org.uom.cse.cs4262.api.Node;
+import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 
 /**
@@ -9,19 +9,20 @@ import org.uom.cse.cs4262.api.message.Message;
  * @since 1.0
  */
 public class JoinRequest extends Message {
-    private Node node;
 
-    public Node getNode() {
-        return node;
+    private Credential credential;
+
+    public Credential getCredential() {
+        return credential;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public void setCredential(Credential credential) {
+        this.credential = credential;
     }
 
     @Override
     public String getMessageAsString(String message) {
-        message += " " + this.getNode().getCredential().getIp() + " " + this.getNode().getCredential().getPort();
+        message += " " + this.getCredential().getIp() + " " + this.getCredential().getPort();
         return super.getMessageAsString(message);
     }
 }
