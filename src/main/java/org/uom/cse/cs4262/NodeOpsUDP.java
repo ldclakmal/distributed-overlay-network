@@ -114,9 +114,11 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void search(Credential neighbourNode) {
+    public void search(Credential neighbourNode, String fileName, int hops) {
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setNode(node);
+        searchRequest.setHops(hops);
+        searchRequest.setFileName(fileName);
         String msg = searchRequest.getMessageAsString(Constant.Command.SEARCH);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));

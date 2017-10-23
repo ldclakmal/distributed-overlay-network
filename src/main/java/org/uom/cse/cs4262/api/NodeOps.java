@@ -25,7 +25,7 @@ public interface NodeOps {
 
     void leave();
 
-    void search(Credential credential);
+    void search(Credential credential, String fileName, int hops);
 
     void searchOk();
 
