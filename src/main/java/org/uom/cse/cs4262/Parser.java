@@ -1,9 +1,12 @@
 package org.uom.cse.cs4262;
 
 import org.uom.cse.cs4262.api.Constant;
+import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.response.RegisterResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 /**
@@ -22,9 +25,29 @@ public class Parser {
         String command = st.nextToken();
 
         if (command.equals(Constant.Command.REGOK)) {
-            RegisterResponse registerResponse = new RegisterResponse();
+            int numOfNodes  = Integer.parseInt(st.nextToken());
+            String ip;
+            int port;
+            List<Credential> nodes = new ArrayList<>();
+            for(int i = 0; i< numOfNodes;i++){
+                ip = st.nextToken();
+                port = Integer.parseInt(st.nextToken());
+                nodes.add(new Credential(ip,port,null));
+            }
+            RegisterResponse registerResponse = new RegisterResponse(numOfNodes,nodes);
             //TODO: split the message and create registerResponse object. Refer BootstrapServer.java class for tokenize
             return registerResponse;
+        }else if(command.equals(Constant.Command.UNREGOK)){
+
+        }else if(command.equals(Constant.Command.JOINOK)){
+
+        }else if(command.equals(Constant.Command.LEAVEOK)){
+
+        }else if(command.equals(Constant.Command.SEARCHOK)){
+
+        }else if(command.equals(Constant.Command.ERROR)){
+
+
         }
 
         return null;

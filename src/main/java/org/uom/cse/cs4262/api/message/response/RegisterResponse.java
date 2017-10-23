@@ -1,6 +1,6 @@
 package org.uom.cse.cs4262.api.message.response;
 
-import org.uom.cse.cs4262.api.Node;
+import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 
 import java.util.List;
@@ -14,13 +14,18 @@ import java.util.List;
 public class RegisterResponse extends Message {
 
     private int noOfNodes;
-    private List<Node> nodes;
+    private List<Credential> nodes;
 
-    public List<Node> getNodes() {
+    public RegisterResponse(int noOfNodes, List<Credential> nodes) {
+        this.noOfNodes = noOfNodes;
+        this.nodes = nodes;
+    }
+
+    public List<Credential> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<Node> nodes) {
+    public void setNodes(List<Credential> nodes) {
         this.nodes = nodes;
     }
 
