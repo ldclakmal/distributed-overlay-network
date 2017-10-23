@@ -78,7 +78,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     @Override
     public void register() {
         RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setNode(node);
+        registerRequest.setCredential(node.getCredential());
         String msg = registerRequest.getMessageAsString(Constant.Command.REG);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(bootstrapServerCredential.getIp()), bootstrapServerCredential.getPort()));
@@ -95,7 +95,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     @Override
     public void join(Credential neighbourNode) {
         JoinRequest joinRequest = new JoinRequest();
-        joinRequest.setNode(node);
+        joinRequest.setCredential(node.getCredential());
         String msg = joinRequest.getMessageAsString(Constant.Command.JOIN);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
@@ -115,14 +115,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void search(Credential neighbourNode, String fileName, int hops) {
-        SearchRequest searchRequest = new SearchRequest();
-        searchRequest.setNode(node);
-        searchRequest.setHops(hops);
-        searchRequest.setFileName(fileName);
+    public void search(SearchRequest searchRequest) {
         String msg = searchRequest.getMessageAsString(Constant.Command.SEARCH);
         try {
-            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(searchRequest.getCredential().getIp()), searchRequest.getCredential().getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -159,11 +155,12 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
             if (!searchResult.isEmpty()) {
-                SearchResponse searchResponse = new SearchResponse(searchResult.size(), searchRequest.getNode().getCredential(), searchRequest.incHops(), searchResult);
+                SearchResponse searchResponse = new SearchResponse(searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
                 searchOk(searchResponse);
             } else {
                 for (Credential credential : node.getRoutingTable()) {
-                    search(credential, searchRequest.getFileName(), searchRequest.incHops());
+                    searchRequest.setHops(searchRequest.incHops());
+                    search(searchRequest);
                 }
             }
         }

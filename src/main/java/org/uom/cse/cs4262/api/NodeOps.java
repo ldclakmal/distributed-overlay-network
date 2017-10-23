@@ -1,6 +1,7 @@
 package org.uom.cse.cs4262.api;
 
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.SearchResponse;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface NodeOps {
 
     void leave();
 
-    void search(Credential credential, String fileName, int hops);
+    void search(SearchRequest searchRequest);
 
     void searchOk(SearchResponse searchResponse);
 
