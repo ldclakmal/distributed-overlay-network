@@ -13,6 +13,7 @@ import java.util.List;
 
 public class RegisterResponse extends Message {
 
+    private int noOfNodes;
     private List<Node> nodes;
 
     public List<Node> getNodes() {
@@ -23,4 +24,11 @@ public class RegisterResponse extends Message {
         this.nodes = nodes;
     }
 
+    public int getNoOfNodes() {
+        return noOfNodes;
+    }
+
+    public void setNoOfNodes(int noOfNodes) {
+        this.noOfNodes = noOfNodes;
+    }
 }
