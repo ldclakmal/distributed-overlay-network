@@ -16,7 +16,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author Chanaka Lakmal
@@ -24,7 +27,7 @@ import java.util.List;
  * @since 1.0
  */
 
-public class NodeOpsUDP extends NodeOps implements Runnable {
+public class NodeOpsUDP implements NodeOps, Runnable {
 
     private Node node;
     private Credential bootstrapServerCredential;
@@ -36,7 +39,7 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
 
         this.node = new Node();
         node.setCredential(nodeCredential);
-        node.setFileList(createFileList());
+        node.setFileList((ArrayList<String>) createFileList());
         node.setRoutingTable(new ArrayList());
         node.setStatTable(new ArrayList());
 
@@ -101,20 +104,42 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
     }
 
     @Override
+    public void joinOk() {
+
+    }
+
+    @Override
     public void leave() {
 
     }
 
     @Override
-    public void search(Credential neighbourNode) {
+    public void search(Credential neighbourNode, String fileName, int hops) {
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setNode(node);
+        searchRequest.setHops(hops);
+        searchRequest.setFileName(fileName);
         String msg = searchRequest.getMessageAsString(Constant.Command.SEARCH);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void searchOk() {
+
+    }
+
+    @Override
+    public List<String> createFileList() {
+        ArrayList<String> fileList = new ArrayList<>();
+        fileList.add("Twilight");
+        fileList.add("Jack");
+        //TODO: add all the files
+        Collections.shuffle(fileList);
+        return fileList.subList(0, 5);
     }
 
     @Override
@@ -129,17 +154,28 @@ public class NodeOpsUDP extends NodeOps implements Runnable {
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
+        } else if (response instanceof SearchRequest) {
+            SearchRequest searchRequest = (SearchRequest) response;
+            List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
+            if (!searchResult.isEmpty()) {
+                //TODO: create search response object and send it to searchRequest.getNode().getCredentials() after @Chandu
+            } else {
+                for (Credential credential : node.getRoutingTable()) {
+                    search(credential);
+                }
+            }
         }
         //TODO: proceed with other response messages after @Chandu
     }
 
     @Override
-    public ArrayList<String> createFileList() {
-        return super.createFileList();
+    public boolean isRegOk() {
+        return regOk;
     }
 
     @Override
-    public boolean isRegOk() {
-        return regOk;
+    public List<String> checkForFiles(String fileName, ArrayList<String> fileList) {
+        Pattern pattern = Pattern.compile(fileName);
+        return fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
     }
 }
