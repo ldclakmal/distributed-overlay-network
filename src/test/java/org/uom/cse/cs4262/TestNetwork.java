@@ -47,7 +47,6 @@ public class TestNetwork {
 
         for (String s : matching) {
             System.out.println(s);
-
         }
     }
 }

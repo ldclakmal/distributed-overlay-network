@@ -42,4 +42,8 @@ public class SearchRequest extends Message {
         message += " " + this.getNode().getCredential().getIp() + " " + this.getNode().getCredential().getPort() + " " + this.getFileName() + " " + this.getHops();
         return super.getMessageAsString(message);
     }
+
+    public int incHops() {
+        return hops++;
+    }
 }

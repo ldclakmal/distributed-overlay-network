@@ -161,7 +161,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                 //TODO: create search response object and send it to searchRequest.getNode().getCredentials() after @Chandu
             } else {
                 for (Credential credential : node.getRoutingTable()) {
-                    search(credential);
+                    search(credential, searchRequest.getFileName(), searchRequest.incHops());
                 }
             }
         }
