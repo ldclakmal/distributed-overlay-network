@@ -1,8 +1,8 @@
 package org.uom.cse.cs4262.api;
 
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.response.SearchResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +27,7 @@ public interface NodeOps {
 
     void search(Credential credential, String fileName, int hops);
 
-    void searchOk();
+    void searchOk(SearchResponse searchResponse);
 
     List<String> createFileList();
 
@@ -35,5 +35,5 @@ public interface NodeOps {
 
     boolean isRegOk();
 
-    List<String> checkForFiles(String fileName, ArrayList<String> fileList);
+    List<String> checkForFiles(String fileName, List<String> fileList);
 }

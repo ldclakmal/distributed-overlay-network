@@ -1,6 +1,6 @@
 package org.uom.cse.cs4262.api;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Chamin Wickramarathna
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public class Node {
 
     private Credential credential;
-    private ArrayList<String> fileList;
-    private ArrayList<Credential> routingTable;
-    private ArrayList<StatRecord> statTable;
+    private List<String> fileList;
+    private List<Credential> routingTable;
+    private List<StatRecord> statTable;
 
     public Credential getCredential() {
         return credential;
@@ -22,27 +22,27 @@ public class Node {
         this.credential = credential;
     }
 
-    public ArrayList<String> getFileList() {
+    public List<String> getFileList() {
         return fileList;
     }
 
-    public void setFileList(ArrayList<String> fileList) {
+    public void setFileList(List<String> fileList) {
         this.fileList = fileList;
     }
 
-    public ArrayList<Credential> getRoutingTable() {
+    public List<Credential> getRoutingTable() {
         return routingTable;
     }
 
-    public void setRoutingTable(ArrayList<Credential> routingTable) {
+    public void setRoutingTable(List<Credential> routingTable) {
         this.routingTable = routingTable;
     }
 
-    public ArrayList<StatRecord> getStatTable() {
+    public List<StatRecord> getStatTable() {
         return statTable;
     }
 
-    public void setStatTable(ArrayList<StatRecord> statTable) {
+    public void setStatTable(List<StatRecord> statTable) {
         this.statTable = statTable;
     }
 }

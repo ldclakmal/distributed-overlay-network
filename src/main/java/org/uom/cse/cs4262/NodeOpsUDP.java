@@ -9,6 +9,7 @@ import org.uom.cse.cs4262.api.message.request.JoinRequest;
 import org.uom.cse.cs4262.api.message.request.RegisterRequest;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.RegisterResponse;
+import org.uom.cse.cs4262.api.message.response.SearchResponse;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -39,7 +40,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
         this.node = new Node();
         node.setCredential(nodeCredential);
-        node.setFileList((ArrayList<String>) createFileList());
+        node.setFileList(createFileList());
         node.setRoutingTable(new ArrayList());
         node.setStatTable(new ArrayList());
 
@@ -128,7 +129,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void searchOk() {
+    public void searchOk(SearchResponse searchResponse) {
 
     }
 
@@ -174,7 +175,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public List<String> checkForFiles(String fileName, ArrayList<String> fileList) {
+    public List<String> checkForFiles(String fileName, List<String> fileList) {
         Pattern pattern = Pattern.compile(fileName);
         return fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
     }
