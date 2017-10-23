@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @since 1.0
  */
 
-public class NodeOpsUDP implements NodeOps, Runnable {
+public class NodeOpsUDP extends NodeOps implements Runnable {
 
     private Node node;
     private Credential bootstrapServerCredential;
@@ -31,11 +31,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
         this.node = new Node();
         node.setCredential(nodeCredential);
-        node.setFileList(new ArrayList());
+        node.setFileList(createFileList());
         node.setRoutingTable(new ArrayList());
         node.setStatTable(new ArrayList());
 
-        this.addFiles();
         this.start();
     }
 
@@ -100,11 +99,12 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void addFiles() {
+    public void processResponse() {
+
     }
 
     @Override
-    public void processResponse() {
-
+    public ArrayList<String> createFileList() {
+        return super.createFileList();
     }
 }
