@@ -54,7 +54,9 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             datagramPacket = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(datagramPacket);
-                Message response = Parser.parse(datagramPacket);
+                String message = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
+                Credential senderCredential = new Credential(datagramPacket.getAddress().getHostAddress(), datagramPacket.getPort(), null);
+                Message response = Parser.parse(message, senderCredential);
                 processResponse(response);
             } catch (IOException e) {
                 e.printStackTrace();
