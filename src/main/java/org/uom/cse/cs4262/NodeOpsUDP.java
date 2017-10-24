@@ -143,10 +143,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void search(SearchRequest searchRequest) {
+    public void search(SearchRequest searchRequest, Credential sendCredentials) {
         String msg = searchRequest.getMessageAsString(Constant.Command.SEARCH);
         try {
-            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(searchRequest.getCredential().getIp()), searchRequest.getCredential().getPort()));
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(sendCredentials.getIp()), sendCredentials.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -318,7 +318,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             System.out.println("File is not available");
             for (Credential credential : node.getRoutingTable()) {
                 searchRequest.setHops(searchRequest.incHops());
-                search(searchRequest);
+                search(searchRequest, credential);
                 System.out.println("Send SER request message to " + credential.getIp() + " : " + credential.getPort());
             }
         }
