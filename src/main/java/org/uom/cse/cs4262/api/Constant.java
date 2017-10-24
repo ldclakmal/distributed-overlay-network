@@ -11,7 +11,8 @@ public class Constant {
     public final static String IP_BOOTSTRAP_SERVER = "127.0.0.1";
     public final static String IP_NODE = "127.0.0.1";
     public final static int PORT_BOOTSTRAP_SERVER = 55555;
-    public final static int PORT_NODE = 44444;
+    public final static int MIN_PORT_NODE = 40000;
+    public final static int MAX_PORT_NODE = 50000;
     public final static String USERNAME_BOOTSTRAP_SERVER = "Bootstrap";
 
     public static class Command {

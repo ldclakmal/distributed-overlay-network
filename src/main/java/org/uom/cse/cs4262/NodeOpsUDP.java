@@ -16,6 +16,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -209,7 +210,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             if (registerResponse.getNoOfNodes() == Constant.Codes.Register.ERROR_ALREADY_REGISTERED) {
                 System.out.println("Already registered at Bootstrap with same username");
                 Credential credential = node.getCredential();
-                credential.setUsername(credential.getUsername() + 1);
+                credential.setUsername(UUID.randomUUID().toString());
                 node.setCredential(credential);
                 register();
             } else if (registerResponse.getNoOfNodes() == Constant.Codes.Register.ERROR_DUPLICATE_IP) {
@@ -305,8 +306,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         System.out.println("Routing table updated as :");
         System.out.println("-----------------------------------------------------------");
         for (Credential credential : routingTable) {
-            System.out.println("IP /t PORT /t UserName");
-            System.out.println(credential.getIp() + "/t" + credential.getPort() + "/t" + credential.getUsername());
+            System.out.println("IP \t \t PORT");
+            System.out.println(credential.getIp() + "\t" + credential.getPort());
         }
     }
 }
