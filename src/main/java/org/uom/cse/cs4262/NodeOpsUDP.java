@@ -188,7 +188,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     public void processResponse(Message response) {
         if (response instanceof RegisterResponse) {
             RegisterResponse registerResponse = (RegisterResponse) response;
-            List<Credential> credentialList = registerResponse.getNodes();
+            List<Credential> credentialList = registerResponse.getCredentials();
             ArrayList<Credential> routingTable = new ArrayList();
             for (Credential credential : credentialList) {
                 routingTable.add(credential);
@@ -196,6 +196,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
+        } else if (response instanceof UnregisterResponse) {
+
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
@@ -212,11 +214,17 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         } else if (response instanceof SearchResponse) {
             SearchResponse searchResponse = (SearchResponse) response;
             System.out.printf(searchResponse.toString());
+        } else if (response instanceof JoinRequest) {
+
         } else if (response instanceof JoinResponse) {
             JoinResponse joinResponse = (JoinResponse) response;
             List<Credential> routingTable = node.getRoutingTable();
             routingTable.add(joinResponse.getSenderCredential());
             node.setRoutingTable(routingTable);
+        } else if (response instanceof LeaveRequest) {
+
+        } else if (response instanceof LeaveResponse) {
+
         } else if (response instanceof ErrorResponse) {
             ErrorResponse errorResponse = (ErrorResponse) response;
             System.out.println(errorResponse.toString());
