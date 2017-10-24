@@ -65,4 +65,9 @@ public class SearchResponse extends Message {
         }
         return super.getMessageAsString(message);
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
