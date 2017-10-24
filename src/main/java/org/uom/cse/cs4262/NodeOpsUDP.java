@@ -317,7 +317,6 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         } else {
             System.out.println("File is not available");
             for (Credential credential : node.getRoutingTable()) {
-                searchRequest.setCredential(credential);
                 searchRequest.setHops(searchRequest.incHops());
                 search(searchRequest);
                 System.out.println("Send SER request message to " + credential.getIp() + " : " + credential.getPort());
