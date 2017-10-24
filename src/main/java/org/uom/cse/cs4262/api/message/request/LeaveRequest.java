@@ -12,6 +12,10 @@ public class LeaveRequest extends Message {
 
     private Credential credential;
 
+    public LeaveRequest(Credential credential) {
+        this.credential = credential;
+    }
+
     public Credential getCredential() {
         return credential;
     }

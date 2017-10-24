@@ -3,6 +3,7 @@ package org.uom.cse.cs4262;
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.request.LeaveRequest;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.*;
 
@@ -43,7 +44,13 @@ public class Parser {
             int value = Integer.parseInt(st.nextToken());
             return new UnregisterResponse(value);
 
-        } else if (command.equals(Constant.Command.JOINOK)) {
+        } else if(command.equals(Constant.Command.LEAVE)){
+            String ip = st.nextToken();
+            int port = Integer.parseInt(st.nextToken());
+            Credential crd = new Credential(ip,port,null);
+            return new LeaveRequest(crd);
+
+        } else if(command.equals(Constant.Command.JOINOK)) {
             int value = Integer.parseInt(st.nextToken());
             return new JoinResponse(value, senderCredential);
 

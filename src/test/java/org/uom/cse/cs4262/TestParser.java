@@ -16,7 +16,7 @@ public class TestParser {
     public String UNROK = "0012 UNROK 0";
     public String JOINOK = "0014 JOINOK 0";
     public String LEAVEOK = "0014 LEAVEOK 0";
-    public String SEROK = "0114 SEROK 3 129.82.128.123 8823 01 baby_go_home.mp3 baby_come_back.mp3 baby.mpeg";
+    public String SEROK = "0114 SEROK 4 3 129.82.128.123 8823 01 baby_go_home.mp3 baby_come_back.mp3 baby.mpeg";
     public String ERROROK = "0010 ERROR";
     @Test
     public void testParser(){
