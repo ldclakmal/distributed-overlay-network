@@ -229,7 +229,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
             if (!searchResult.isEmpty()) {
-                SearchResponse searchResponse = new SearchResponse(searchResult.size(), searchRequest.getCredential(), searchRequest.getSequenceNo(), searchRequest.incHops(), searchResult);
+                SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
                 searchOk(searchResponse);
             } else {
                 for (Credential credential : node.getRoutingTable()) {
