@@ -233,6 +233,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                 this.node.setRoutingTable(routingTable);
                 this.regOk = true;
             }
+
         } else if (response instanceof UnregisterResponse) {
             //TODO: set leave request for all of the nodes at routing table
             node.setRoutingTable(new ArrayList<>());
@@ -256,7 +257,13 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
         } else if (response instanceof SearchResponse) {
             SearchResponse searchResponse = (SearchResponse) response;
-            System.out.printf(searchResponse.toString());
+            if (searchResponse.getNoOfFiles() == Constant.Codes.Search.ERROR_NODE_UNREACHABLE) {
+                System.out.println("Failure due to node unreachable");
+            } else if (searchResponse.getNoOfFiles() == Constant.Codes.Search.ERROR_OTHER) {
+                System.out.println("Some other error");
+            } else {
+                System.out.printf(searchResponse.toString());
+            }
 
         } else if (response instanceof JoinRequest) {
             joinOk(node.getCredential());
