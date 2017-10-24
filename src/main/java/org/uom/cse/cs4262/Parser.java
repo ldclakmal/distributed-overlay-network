@@ -38,10 +38,12 @@ public class Parser {
             String ip;
             int port;
             List<Credential> nodes = new ArrayList<>();
-            for (int i = 0; i < numOfNodes; i++) {
-                ip = st.nextToken();
-                port = Integer.parseInt(st.nextToken());
-                nodes.add(new Credential(ip, port, null));
+            if(!(numOfNodes == Constant.Codes.Register.ERROR_CANNOT_REGISTER || numOfNodes == Constant.Codes.Register.ERROR_DUPLICATE_IP || numOfNodes == Constant.Codes.Register.ERROR_ALREADY_REGISTERED || numOfNodes == Constant.Codes.Register.ERROR_COMMAND)){
+                for (int i = 0; i < numOfNodes; i++) {
+                    ip = st.nextToken();
+                    port = Integer.parseInt(st.nextToken());
+                    nodes.add(new Credential(ip, port, null));
+                }
             }
             RegisterResponse registerResponse = new RegisterResponse(numOfNodes, nodes);
             return registerResponse;
