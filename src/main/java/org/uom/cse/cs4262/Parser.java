@@ -3,9 +3,7 @@ package org.uom.cse.cs4262;
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
-import org.uom.cse.cs4262.api.message.request.LeaveRequest;
-import org.uom.cse.cs4262.api.message.request.RegisterRequest;
-import org.uom.cse.cs4262.api.message.request.SearchRequest;
+import org.uom.cse.cs4262.api.message.request.*;
 import org.uom.cse.cs4262.api.message.response.*;
 
 import java.util.ArrayList;
@@ -48,6 +46,13 @@ public class Parser {
             RegisterResponse registerResponse = new RegisterResponse(numOfNodes, nodes);
             return registerResponse;
 
+        }else if(command.equals(Constant.Command.UNREG)){
+            String ip = st.nextToken();
+            int port = Integer.parseInt(st.nextToken());
+            String username = st.nextToken();
+            Credential unregUserCredentials = new Credential(ip,port,username);
+            return new UnregisterRequest(unregUserCredentials);
+
         } else if (command.equals(Constant.Command.UNREGOK)) {
             int value = Integer.parseInt(st.nextToken());
             return new UnregisterResponse(value);
@@ -57,6 +62,12 @@ public class Parser {
             int port = Integer.parseInt(st.nextToken());
             Credential crd = new Credential(ip,port,null);
             return new LeaveRequest(crd);
+
+        } else if(command.equals(Constant.Command.JOIN)){
+            String ip = st.nextToken();
+            int port = Integer.parseInt(st.nextToken());
+            Credential joinerCredentials = new Credential(ip,port,null);
+            return new JoinRequest(joinerCredentials);
 
         } else if(command.equals(Constant.Command.JOINOK)) {
             int value = Integer.parseInt(st.nextToken());

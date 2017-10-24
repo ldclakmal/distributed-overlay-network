@@ -102,8 +102,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void join(Credential neighbourCredential) {
-        JoinRequest joinRequest = new JoinRequest();
-        joinRequest.setCredential(node.getCredential());
+        JoinRequest joinRequest = new JoinRequest(node.getCredential());
         String msg = joinRequest.getMessageAsString(Constant.Command.JOIN);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourCredential.getIp()), neighbourCredential.getPort()));
