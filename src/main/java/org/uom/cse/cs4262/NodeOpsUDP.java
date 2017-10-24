@@ -126,8 +126,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void leave(Credential neighbourCredential) {
-        LeaveRequest leaveRequest = new LeaveRequest();
-        leaveRequest.setCredential(node.getCredential());
+        LeaveRequest leaveRequest = new LeaveRequest(node.getCredential());
         String msg = leaveRequest.getMessageAsString(Constant.Command.LEAVE);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourCredential.getIp()), neighbourCredential.getPort()));
