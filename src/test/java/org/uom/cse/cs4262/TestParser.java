@@ -2,6 +2,7 @@ package org.uom.cse.cs4262;
 
 import org.junit.Test;
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.response.*;
 
 /**
  * @author Chandu Herath
@@ -20,11 +21,17 @@ public class TestParser {
     @Test
     public void testParser(){
         Parser parser = new Parser();
-        Message msgObject1 = parser.parse(REGOK);
-        Message msgObject2 = parser.parse(UNROK);
-        Message msgObject3 = parser.parse(JOINOK);
-        Message msgObject4 = parser.parse(LEAVEOK);
-        Message msgObject5 = parser.parse(SEROK);
-        Message msgObject6 = parser.parse(ERROROK);
+        Message msgObject1 = parser.parse(REGOK,null);
+        System.out.println(msgObject1 instanceof RegisterResponse);
+        Message msgObject2 = parser.parse(UNROK,null);
+        System.out.println(msgObject2 instanceof UnregisterResponse);
+        Message msgObject3 = parser.parse(JOINOK,null);
+        System.out.println(msgObject3 instanceof JoinResponse);
+        Message msgObject4 = parser.parse(LEAVEOK,null);
+        System.out.println(msgObject4 instanceof LeaveResponse);
+        Message msgObject5 = parser.parse(SEROK,null);
+        System.out.println(msgObject5 instanceof SearchResponse);
+        Message msgObject6 = parser.parse(ERROROK,null);
+        System.out.println(msgObject6 instanceof ErrorResponse);
     }
 }
