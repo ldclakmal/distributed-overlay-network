@@ -11,6 +11,7 @@ import org.uom.cse.cs4262.api.message.Message;
 public class SearchRequest extends Message {
 
     private Credential triggeredCredential;
+    private int sequenceNo;
     private String fileName;
     private int hops;
 
@@ -20,6 +21,14 @@ public class SearchRequest extends Message {
 
     public void setCredential(Credential credential) {
         this.triggeredCredential = credential;
+    }
+
+    public int getSequenceNo() {
+        return sequenceNo;
+    }
+
+    public void setSequenceNo(int sequenceNo) {
+        this.sequenceNo = sequenceNo;
     }
 
     public String getFileName() {

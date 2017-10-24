@@ -15,6 +15,7 @@ public class SearchResponse extends Message {
 
     private int noOfFiles;
     private Credential credential;
+    private int sequenceNo;
     private int hops;
     private List<String> fileList;
 
@@ -39,6 +40,14 @@ public class SearchResponse extends Message {
 
     public void setCredential(Credential credential) {
         this.credential = credential;
+    }
+
+    public int getSequenceNo() {
+        return sequenceNo;
+    }
+
+    public void setSequenceNo(int sequenceNo) {
+        this.sequenceNo = sequenceNo;
     }
 
     public int getHops() {
