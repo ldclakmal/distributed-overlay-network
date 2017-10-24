@@ -217,8 +217,14 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
+
         } else if (response instanceof UnregisterResponse) {
-            //TODO: handle this later
+            //TODO: set leave request for all of the nodes at routing table
+            node.setRoutingTable(new ArrayList<>());
+            node.setFileList(new ArrayList<>());
+            node.setStatTable(new ArrayList<>());
+            this.regOk = false;
+
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
@@ -232,25 +238,33 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                     search(searchRequest);
                 }
             }
+
         } else if (response instanceof SearchResponse) {
             SearchResponse searchResponse = (SearchResponse) response;
             System.out.printf(searchResponse.toString());
+
         } else if (response instanceof JoinRequest) {
             joinOk(node.getCredential());
+
         } else if (response instanceof JoinResponse) {
             JoinResponse joinResponse = (JoinResponse) response;
             List<Credential> routingTable = node.getRoutingTable();
             routingTable.add(joinResponse.getSenderCredential());
             node.setRoutingTable(routingTable);
+
         } else if (response instanceof LeaveRequest) {
-            //TODO: handle this later
+            LeaveRequest leaveRequest = (LeaveRequest) response;
+            List<Credential> routingTable = node.getRoutingTable();
+            routingTable.remove(leaveRequest.getCredential());
+            node.setRoutingTable(routingTable);
+
         } else if (response instanceof LeaveResponse) {
-            //TODO: handle this later
+            //Nothing to do here
+
         } else if (response instanceof ErrorResponse) {
             ErrorResponse errorResponse = (ErrorResponse) response;
             System.out.println(errorResponse.toString());
         }
-        //TODO: proceed with other response messages after @Chandu
     }
 
     @Override
