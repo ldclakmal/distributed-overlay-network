@@ -26,19 +26,19 @@ public class Parser {
         String length = st.nextToken();
         String command = st.nextToken();
 
-        if(command.equals(Constant.Command.REG)){
+        if (command.equals(Constant.Command.REG)) {
             String ip = st.nextToken();
             int port = Integer.parseInt(st.nextToken());
             String username = st.nextToken();
-            Credential userCredentials = new Credential(ip,port,username);
+            Credential userCredentials = new Credential(ip, port, username);
             return new RegisterRequest(userCredentials);
 
-        }else if (command.equals(Constant.Command.REGOK)) {
+        } else if (command.equals(Constant.Command.REGOK)) {
             int numOfNodes = Integer.parseInt(st.nextToken());
             String ip;
             int port;
             List<Credential> nodes = new ArrayList<>();
-            if(!(numOfNodes == Constant.Codes.Register.ERROR_CANNOT_REGISTER || numOfNodes == Constant.Codes.Register.ERROR_DUPLICATE_IP || numOfNodes == Constant.Codes.Register.ERROR_ALREADY_REGISTERED || numOfNodes == Constant.Codes.Register.ERROR_COMMAND)){
+            if (!(numOfNodes == Constant.Codes.Register.ERROR_CANNOT_REGISTER || numOfNodes == Constant.Codes.Register.ERROR_DUPLICATE_IP || numOfNodes == Constant.Codes.Register.ERROR_ALREADY_REGISTERED || numOfNodes == Constant.Codes.Register.ERROR_COMMAND)) {
                 for (int i = 0; i < numOfNodes; i++) {
                     ip = st.nextToken();
                     port = Integer.parseInt(st.nextToken());
@@ -48,30 +48,30 @@ public class Parser {
             RegisterResponse registerResponse = new RegisterResponse(numOfNodes, nodes);
             return registerResponse;
 
-        }else if(command.equals(Constant.Command.UNREG)){
+        } else if (command.equals(Constant.Command.UNREG)) {
             String ip = st.nextToken();
             int port = Integer.parseInt(st.nextToken());
             String username = st.nextToken();
-            Credential unregUserCredentials = new Credential(ip,port,username);
+            Credential unregUserCredentials = new Credential(ip, port, username);
             return new UnregisterRequest(unregUserCredentials);
 
         } else if (command.equals(Constant.Command.UNREGOK)) {
             int value = Integer.parseInt(st.nextToken());
             return new UnregisterResponse(value);
 
-        } else if(command.equals(Constant.Command.LEAVE)){
+        } else if (command.equals(Constant.Command.LEAVE)) {
             String ip = st.nextToken();
             int port = Integer.parseInt(st.nextToken());
-            Credential crd = new Credential(ip,port,null);
+            Credential crd = new Credential(ip, port, null);
             return new LeaveRequest(crd);
 
-        } else if(command.equals(Constant.Command.JOIN)){
+        } else if (command.equals(Constant.Command.JOIN)) {
             String ip = st.nextToken();
             int port = Integer.parseInt(st.nextToken());
-            Credential joinerCredentials = new Credential(ip,port,null);
+            Credential joinerCredentials = new Credential(ip, port, null);
             return new JoinRequest(joinerCredentials);
 
-        } else if(command.equals(Constant.Command.JOINOK)) {
+        } else if (command.equals(Constant.Command.JOINOK)) {
             int value = Integer.parseInt(st.nextToken());
             return new JoinResponse(value, senderCredential);
 
@@ -79,14 +79,14 @@ public class Parser {
             int value = Integer.parseInt(st.nextToken());
             return new LeaveResponse(value);
 
-        } else if(command.equals(Constant.Command.SEARCH)){
+        } else if (command.equals(Constant.Command.SEARCH)) {
             int seqNum = Integer.parseInt(st.nextToken());
             String ip = st.nextToken();
             int port = Integer.parseInt(st.nextToken());
             String fileName = st.nextToken();
             int hops = Integer.parseInt(st.nextToken());
-            Credential crd = new Credential(ip,port,null);
-            return new SearchRequest(seqNum,crd,fileName,hops);
+            Credential crd = new Credential(ip, port, null);
+            return new SearchRequest(seqNum, crd, fileName, hops);
 
         } else if (command.equals(Constant.Command.SEARCHOK)) {
             int sequenceNo = Integer.parseInt(st.nextToken());
