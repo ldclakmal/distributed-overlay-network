@@ -208,6 +208,16 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     public void processResponse(Message response) {
         if (response instanceof RegisterResponse) {
             RegisterResponse registerResponse = (RegisterResponse) response;
+            if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_ALREADY_REGISTERED) {
+                System.out.println("Already registered at Bootstrap with same username");
+                //TODO: call unregister and register again with different username
+            } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_DUPLICATE_IP) {
+                System.out.println("Already registered at Bootstrap with same port");
+                Credential credential = node.getCredential();
+                credential.setPort(credential.getPort() + 1);
+                node.setCredential(credential);
+                register();
+            }
             List<Credential> credentialList = registerResponse.getCredentials();
             ArrayList<Credential> routingTable = new ArrayList();
             for (Credential credential : credentialList) {
