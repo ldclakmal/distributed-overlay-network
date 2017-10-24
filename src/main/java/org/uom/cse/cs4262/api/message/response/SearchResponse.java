@@ -82,6 +82,7 @@ public class SearchResponse extends Message {
                 "\nNo of files: " + fileList.size() +
                 "\nIP: " + this.getCredential().getIp() +
                 "\nPort: " + this.getCredential().getPort() +
+                "\nSequence No: " + this.getSequenceNo() +
                 "\nHop count: " + this.getHops();
         for (int i = 0; i < fileList.size(); i++) {
             response += "\nFile " + i + ": " + fileList.get(i);
