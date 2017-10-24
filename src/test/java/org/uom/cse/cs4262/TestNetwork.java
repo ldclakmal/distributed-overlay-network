@@ -5,10 +5,7 @@ import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -19,9 +16,8 @@ public class TestNetwork {
         Credential bootstrapServerCredential = new Credential(Constant.IP_BOOTSTRAP_SERVER, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
 
         // Generate self credentials
-        // Generate random username
-        UUID randomUsername = UUID.randomUUID();
-        Credential nodeCredential = new Credential(Constant.IP_NODE, 44440, String.valueOf(randomUsername));
+        int PORD_NODE = new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
+        Credential nodeCredential = new Credential(Constant.IP_NODE, PORD_NODE, UUID.randomUUID().toString());
 
         // Initiate the thread for UDP connection
         NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
@@ -33,6 +29,7 @@ public class TestNetwork {
             if (nodeOpsUDP.isRegOk()) {
                 SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
                 nodeOpsUDP.search(searchRequest);
+                return;
             }
         }
 
