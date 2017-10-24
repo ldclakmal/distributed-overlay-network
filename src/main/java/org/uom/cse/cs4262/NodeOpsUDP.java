@@ -54,7 +54,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             datagramPacket = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(datagramPacket);
-                Message response = Parser.parse(new String(datagramPacket.getData(), 0, datagramPacket.getLength()));
+                Message response = Parser.parse(datagramPacket);
                 processResponse(response);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -109,7 +109,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void joinOk(Credential senderCredentials) {
-        JoinResponse joinResponse = new JoinResponse(0);
+        JoinResponse joinResponse = new JoinResponse(0, node.getCredential());
         String msg = joinResponse.getMessageAsString(Constant.Command.JOINOK);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredentials.getIp()), senderCredentials.getPort()));
@@ -207,8 +207,18 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                     search(searchRequest);
                 }
             }
+        } else if (response instanceof SearchResponse) {
+            SearchResponse searchResponse = (SearchResponse) response;
+            System.out.printf(searchResponse.toString());
+        } else if (response instanceof JoinResponse) {
+            JoinResponse joinResponse = (JoinResponse) response;
+            List<Credential> routingTable = node.getRoutingTable();
+            routingTable.add(joinResponse.getSenderCredential());
+            node.setRoutingTable(routingTable);
+        } else if (response instanceof ErrorResponse) {
+            ErrorResponse errorResponse = (ErrorResponse) response;
+            System.out.println(errorResponse.toString());
         }
-        //TODO: proceed with other response messages after @Chandu
     }
 
     @Override
