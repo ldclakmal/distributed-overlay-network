@@ -61,6 +61,6 @@ public class SearchRequest extends Message {
     }
 
     public int incHops() {
-        return hops++;
+        return ++hops;
     }
 }
