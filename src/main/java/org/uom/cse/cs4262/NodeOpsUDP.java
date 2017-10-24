@@ -44,6 +44,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         this.start();
     }
 
+    public Node getNode() {
+        return node;
+    }
+
     @Override
     public void run() {
         System.out.println("Server " + this.node.getCredential().getUsername() + " created at " + this.node.getCredential().getPort() + ". Waiting for incoming data...");
