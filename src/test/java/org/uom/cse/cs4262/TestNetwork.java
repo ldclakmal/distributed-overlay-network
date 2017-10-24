@@ -21,7 +21,7 @@ public class TestNetwork {
         // Generate self credentials
         // Generate random username
         UUID randomUsername = UUID.randomUUID();
-        Credential nodeCredential = new Credential(Constant.IP_NODE, Constant.PORT_NODE, String.valueOf(randomUsername));
+        Credential nodeCredential = new Credential(Constant.IP_NODE, 44440, String.valueOf(randomUsername));
 
         // Initiate the thread for UDP connection
         NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
@@ -31,11 +31,7 @@ public class TestNetwork {
 
         while (true) {
             if (nodeOpsUDP.isRegOk()) {
-                SearchRequest searchRequest = new SearchRequest();
-                searchRequest.setCredential(nodeOpsUDP.getNode().getCredential());
-                searchRequest.setFileName("");
-                searchRequest.setSequenceNo(1);
-                searchRequest.setHops(0);
+                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "xxx", 0);
                 nodeOpsUDP.search(searchRequest);
             }
         }

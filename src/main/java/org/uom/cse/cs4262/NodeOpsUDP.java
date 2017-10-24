@@ -212,6 +212,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             for (Credential credential : credentialList) {
                 routingTable.add(credential);
             }
+            System.out.println("Routing table updated as " + routingTable.toString());
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
