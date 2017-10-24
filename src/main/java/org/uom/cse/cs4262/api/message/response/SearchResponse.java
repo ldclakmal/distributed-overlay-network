@@ -65,4 +65,18 @@ public class SearchResponse extends Message {
         }
         return super.getMessageAsString(message);
     }
+
+    @Override
+    public String toString() {
+        System.out.println("Search Results:" +
+                "\nNo of files: " + fileList.size() +
+                "\nIP: " + this.getCredential().getIp() +
+                "\nPort: " + this.getCredential().getPort() +
+                "\nHop count: " + this.getHops());
+        for (int i = 0; i < fileList.size(); i++) {
+            System.out.println("File " + i + ": " + fileList.get(i));
+        }
+
+        return super.toString();
+    }
 }

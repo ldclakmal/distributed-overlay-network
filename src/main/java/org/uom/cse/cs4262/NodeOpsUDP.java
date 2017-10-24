@@ -54,7 +54,9 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             datagramPacket = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(datagramPacket);
-                Message response = Parser.parse(new String(datagramPacket.getData(), 0, datagramPacket.getLength()));
+                String message = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
+                Credential senderCredential = new Credential(datagramPacket.getAddress().getHostAddress(), datagramPacket.getPort(), null);
+                Message response = Parser.parse(message, senderCredential);
                 processResponse(response);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -109,7 +111,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void joinOk(Credential senderCredential) {
-        JoinResponse joinResponse = new JoinResponse(0);
+        JoinResponse joinResponse = new JoinResponse(0, node.getCredential());
         String msg = joinResponse.getMessageAsString(Constant.Command.JOINOK);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredential.getIp()), senderCredential.getPort()));
@@ -175,9 +177,26 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     @Override
     public List<String> createFileList() {
         ArrayList<String> fileList = new ArrayList<>();
+        fileList.add("Adventures of Tintin");
+        fileList.add("Jack and Jill");
+        fileList.add("Glee");
+        fileList.add("The Vampire Diarie");
+        fileList.add("King Arthur");
+        fileList.add("Windows XP");
+        fileList.add("Harry Potter");
+        fileList.add("Kung Fu Panda");
+        fileList.add("Lady Gaga");
         fileList.add("Twilight");
-        fileList.add("Jack");
-        //TODO: add all the files
+        fileList.add("Windows 8");
+        fileList.add("Mission Impossible");
+        fileList.add("Turn Up The Music");
+        fileList.add("Super Mario");
+        fileList.add("American Pickers");
+        fileList.add("Microsoft Office 2010");
+        fileList.add("Happy Feet");
+        fileList.add("Modern Family");
+        fileList.add("American Idol");
+        fileList.add("Hacking for Dummies");
         Collections.shuffle(fileList);
         return fileList.subList(0, 5);
     }
@@ -186,7 +205,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     public void processResponse(Message response) {
         if (response instanceof RegisterResponse) {
             RegisterResponse registerResponse = (RegisterResponse) response;
-            List<Credential> credentialList = registerResponse.getNodes();
+            List<Credential> credentialList = registerResponse.getCredentials();
             ArrayList<Credential> routingTable = new ArrayList();
             for (Credential credential : credentialList) {
                 routingTable.add(credential);
@@ -194,6 +213,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             //TODO: check whether the received nodes are alive before adding to routing table
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
+        } else if (response instanceof UnregisterResponse) {
+
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
@@ -207,6 +228,23 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                     search(searchRequest);
                 }
             }
+        } else if (response instanceof SearchResponse) {
+            SearchResponse searchResponse = (SearchResponse) response;
+            System.out.printf(searchResponse.toString());
+        } else if (response instanceof JoinRequest) {
+
+        } else if (response instanceof JoinResponse) {
+            JoinResponse joinResponse = (JoinResponse) response;
+            List<Credential> routingTable = node.getRoutingTable();
+            routingTable.add(joinResponse.getSenderCredential());
+            node.setRoutingTable(routingTable);
+        } else if (response instanceof LeaveRequest) {
+
+        } else if (response instanceof LeaveResponse) {
+
+        } else if (response instanceof ErrorResponse) {
+            ErrorResponse errorResponse = (ErrorResponse) response;
+            System.out.println(errorResponse.toString());
         }
         //TODO: proceed with other response messages after @Chandu
     }

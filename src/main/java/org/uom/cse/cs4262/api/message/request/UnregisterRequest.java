@@ -11,7 +11,6 @@ import org.uom.cse.cs4262.api.message.Message;
 
 public class UnregisterRequest extends Message {
 
-
     private Credential credential;
 
     public UnregisterRequest(Credential credential) {
