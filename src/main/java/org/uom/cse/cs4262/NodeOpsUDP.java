@@ -214,7 +214,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             this.node.setRoutingTable(routingTable);
             this.regOk = true;
         } else if (response instanceof UnregisterResponse) {
-
+            //TODO: handle this later
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
             List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
@@ -232,16 +232,16 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             SearchResponse searchResponse = (SearchResponse) response;
             System.out.printf(searchResponse.toString());
         } else if (response instanceof JoinRequest) {
-
+            joinOk(node.getCredential());
         } else if (response instanceof JoinResponse) {
             JoinResponse joinResponse = (JoinResponse) response;
             List<Credential> routingTable = node.getRoutingTable();
             routingTable.add(joinResponse.getSenderCredential());
             node.setRoutingTable(routingTable);
         } else if (response instanceof LeaveRequest) {
-
+            //TODO: handle this later
         } else if (response instanceof LeaveResponse) {
-
+            //TODO: handle this later
         } else if (response instanceof ErrorResponse) {
             ErrorResponse errorResponse = (ErrorResponse) response;
             System.out.println(errorResponse.toString());
