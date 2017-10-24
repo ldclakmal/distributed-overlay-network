@@ -302,22 +302,25 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void triggerSearchRequest(SearchRequest searchRequest) {
+        System.out.println("Triggered search request");
         List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
         if (!searchResult.isEmpty()) {
-
+            System.out.println("File is available");
             SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
-
             if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
                 System.out.println(searchResponse.toString());
             } else {
+                System.out.println("Send SEARCHOK response message");
                 searchOk(searchResponse);
             }
 
         } else {
+            System.out.println("File is not available");
             for (Credential credential : node.getRoutingTable()) {
                 searchRequest.setCredential(credential);
                 searchRequest.setHops(searchRequest.incHops());
                 search(searchRequest);
+                System.out.println("Send SER request message to " + credential.getIp() + " : " + credential.getPort());
             }
         }
     }
