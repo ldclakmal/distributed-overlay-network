@@ -3,6 +3,7 @@ package org.uom.cse.cs4262;
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.*;
 
 import java.util.ArrayList;
@@ -49,6 +50,15 @@ public class Parser {
         } else if (command.equals(Constant.Command.LEAVEOK)) {
             int value = Integer.parseInt(st.nextToken());
             return new LeaveResponse(value);
+
+        } else if(command.equals(Constant.Command.SEARCH)){
+            int seqNum = Integer.parseInt(st.nextToken());
+            String ip = st.nextToken();
+            int port = Integer.parseInt(st.nextToken());
+            String fileName = st.nextToken();
+            int hops = Integer.parseInt(st.nextToken());
+            Credential crd = new Credential(ip,port,null);
+            return new SearchRequest(seqNum,crd,fileName,hops);
 
         } else if (command.equals(Constant.Command.SEARCHOK)) {
             int sequenceNo = Integer.parseInt(st.nextToken());

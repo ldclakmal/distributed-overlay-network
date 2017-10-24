@@ -15,6 +15,13 @@ public class SearchRequest extends Message {
     private String fileName;
     private int hops;
 
+    public SearchRequest(int sequenceNo, Credential triggeredCredential, String fileName, int hops) {
+        this.sequenceNo = sequenceNo;
+        this.triggeredCredential = triggeredCredential;
+        this.fileName = fileName;
+        this.hops = hops;
+    }
+
     public Credential getCredential() {
         return triggeredCredential;
     }
