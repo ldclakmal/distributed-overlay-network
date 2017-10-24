@@ -133,7 +133,12 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void searchOk(SearchResponse searchResponse) {
-
+        String msg = searchResponse.getMessageAsString(Constant.Command.SEARCHOK);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(searchResponse.getCredential().getIp()), searchResponse.getCredential().getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

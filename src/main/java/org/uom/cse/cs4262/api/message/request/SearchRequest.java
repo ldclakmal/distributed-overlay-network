@@ -10,16 +10,16 @@ import org.uom.cse.cs4262.api.message.Message;
  */
 public class SearchRequest extends Message {
 
-    private Credential credential;
+    private Credential triggeredCredential;
     private String fileName;
     private int hops;
 
     public Credential getCredential() {
-        return credential;
+        return triggeredCredential;
     }
 
     public void setCredential(Credential credential) {
-        this.credential = credential;
+        this.triggeredCredential = credential;
     }
 
     public String getFileName() {
