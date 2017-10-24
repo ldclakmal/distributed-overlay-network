@@ -8,8 +8,14 @@ import org.uom.cse.cs4262.api.message.Message;
  * @since 1.0
  */
 public class ErrorResponse extends Message {
+
     @Override
     public String getMessageAsString(String message) {
         return super.getMessageAsString(message);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
