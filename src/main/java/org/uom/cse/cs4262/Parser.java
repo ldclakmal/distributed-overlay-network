@@ -95,7 +95,7 @@ public class Parser {
             int port = Integer.parseInt(st.nextToken());
             int hops = Integer.parseInt(st.nextToken());
             List<String> fileList = new ArrayList<>();
-            if(numOfFiles>0 && !(numOfFiles == Constant.Codes.Search.ERROR_OTHER || numOfFiles == Constant.Codes.Search.ERROR_NODE_UNREACHABLE)){
+            if (numOfFiles > 0 && !(numOfFiles == Constant.Codes.Search.ERROR_OTHER || numOfFiles == Constant.Codes.Search.ERROR_NODE_UNREACHABLE)) {
                 for (int i = 0; i < numOfFiles; i++) {
                     fileList.add(st.nextToken());
                 }

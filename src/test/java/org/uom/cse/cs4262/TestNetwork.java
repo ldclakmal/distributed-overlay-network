@@ -16,8 +16,8 @@ public class TestNetwork {
         Credential bootstrapServerCredential = new Credential(Constant.IP_BOOTSTRAP_SERVER, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
 
         // Generate self credentials
-        int PORD_NODE = new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
-        Credential nodeCredential = new Credential(Constant.IP_NODE, PORD_NODE, UUID.randomUUID().toString());
+        int PORT_NODE = new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
+        Credential nodeCredential = new Credential(Constant.IP_NODE, PORT_NODE, UUID.randomUUID().toString());
 
         // Initiate the thread for UDP connection
         NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
@@ -31,8 +31,6 @@ public class TestNetwork {
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
             }
         }
-
-
     }
 
     @Test
