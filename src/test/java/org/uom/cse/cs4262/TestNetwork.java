@@ -29,6 +29,7 @@ public class TestNetwork {
             if (nodeOpsUDP.isRegOk()) {
                 SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
+                return;
             }
         }
     }

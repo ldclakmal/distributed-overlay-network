@@ -13,10 +13,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -200,7 +197,9 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         fileList.add("American Idol");
         fileList.add("Hacking for Dummies");
         Collections.shuffle(fileList);
-        return fileList.subList(0, 5);
+        List<String> subFileList = fileList.subList(0, 5);
+        System.out.println(Arrays.toString(subFileList.toArray()));
+        return subFileList;
     }
 
     @Override
