@@ -108,23 +108,23 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void joinOk(Credential senderCredentials) {
+    public void joinOk(Credential senderCredential) {
         JoinResponse joinResponse = new JoinResponse(0);
         String msg = joinResponse.getMessageAsString(Constant.Command.JOINOK);
         try {
-            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredentials.getIp()), senderCredentials.getPort()));
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredential.getIp()), senderCredential.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void leave(Credential neighbourNode) {
+    public void leave(Credential neighbourCredential) {
         LeaveRequest leaveRequest = new LeaveRequest();
         leaveRequest.setCredential(node.getCredential());
         String msg = leaveRequest.getMessageAsString(Constant.Command.LEAVE);
         try {
-            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourCredential.getIp()), neighbourCredential.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
