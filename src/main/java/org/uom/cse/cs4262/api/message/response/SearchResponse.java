@@ -13,16 +13,16 @@ import java.util.List;
 
 public class SearchResponse extends Message {
 
+    private int sequenceNo;
     private int noOfFiles;
     private Credential credential;
-    private int sequenceNo;
     private int hops;
     private List<String> fileList;
 
-    public SearchResponse(int noOfFiles, Credential credential, int sequenceNo, int hops, List<String> fileList) {
+    public SearchResponse(int sequenceNo, int noOfFiles, Credential credential, int hops, List<String> fileList) {
+        this.sequenceNo = sequenceNo;
         this.noOfFiles = noOfFiles;
         this.credential = credential;
-        this.sequenceNo = sequenceNo;
         this.hops = hops;
         this.fileList = fileList;
     }
@@ -69,7 +69,7 @@ public class SearchResponse extends Message {
 
     @Override
     public String getMessageAsString(String message) {
-        message += " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
+        message += " " + sequenceNo + " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
         for (String file : fileList) {
             message += " " + file;
         }
@@ -79,10 +79,10 @@ public class SearchResponse extends Message {
     @Override
     public String toString() {
         String response = "Search Results:" +
+                "\nSequence No: " + this.getSequenceNo() +
                 "\nNo of files: " + fileList.size() +
                 "\nIP: " + this.getCredential().getIp() +
                 "\nPort: " + this.getCredential().getPort() +
-                "\nSequence No: " + this.getSequenceNo() +
                 "\nHop count: " + this.getHops();
         for (int i = 0; i < fileList.size(); i++) {
             response += "\nFile " + i + ": " + fileList.get(i);

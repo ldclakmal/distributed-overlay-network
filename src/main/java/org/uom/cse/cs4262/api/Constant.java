@@ -15,7 +15,6 @@ public class Constant {
     public final static String USERNAME_BOOTSTRAP_SERVER = "Bootstrap";
 
     public static class Command {
-
         public final static String REG = "REG";
         public final static String REGOK = "REGOK";
         public final static String UNREG = "UNREG";

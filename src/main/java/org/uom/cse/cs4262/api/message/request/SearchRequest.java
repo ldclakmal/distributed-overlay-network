@@ -10,8 +10,8 @@ import org.uom.cse.cs4262.api.message.Message;
  */
 public class SearchRequest extends Message {
 
-    private Credential triggeredCredential;
     private int sequenceNo;
+    private Credential triggeredCredential;
     private String fileName;
     private int hops;
 
@@ -49,7 +49,7 @@ public class SearchRequest extends Message {
 
     @Override
     public String getMessageAsString(String message) {
-        message += " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getFileName() + " " + this.getHops();
+        message += " " + sequenceNo + " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getFileName() + " " + this.getHops();
         return super.getMessageAsString(message);
     }
 
