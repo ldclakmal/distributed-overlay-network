@@ -5,10 +5,7 @@ import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.Node;
 import org.uom.cse.cs4262.api.NodeOps;
 import org.uom.cse.cs4262.api.message.Message;
-import org.uom.cse.cs4262.api.message.request.JoinRequest;
-import org.uom.cse.cs4262.api.message.request.LeaveRequest;
-import org.uom.cse.cs4262.api.message.request.RegisterRequest;
-import org.uom.cse.cs4262.api.message.request.SearchRequest;
+import org.uom.cse.cs4262.api.message.request.*;
 import org.uom.cse.cs4262.api.message.response.*;
 
 import java.io.IOException;
@@ -89,7 +86,13 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void unRegister() {
-
+        UnregisterRequest unregisterRequest = new UnregisterRequest(node.getCredential());
+        String msg = unregisterRequest.getMessageAsString(Constant.Command.UNREG);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(bootstrapServerCredential.getIp()), bootstrapServerCredential.getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
