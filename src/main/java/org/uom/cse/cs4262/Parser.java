@@ -4,6 +4,7 @@ import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.LeaveRequest;
+import org.uom.cse.cs4262.api.message.request.RegisterRequest;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.*;
 
@@ -27,7 +28,14 @@ public class Parser {
         String length = st.nextToken();
         String command = st.nextToken();
 
-        if (command.equals(Constant.Command.REGOK)) {
+        if(command.equals(Constant.Command.REG)){
+            String ip = st.nextToken();
+            int port = Integer.parseInt(st.nextToken());
+            String username = st.nextToken();
+            Credential userCredentials = new Credential(ip,port,username);
+            return new RegisterRequest(userCredentials);
+
+        }else if (command.equals(Constant.Command.REGOK)) {
             int numOfNodes = Integer.parseInt(st.nextToken());
             String ip;
             int port;

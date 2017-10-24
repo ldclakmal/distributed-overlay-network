@@ -80,8 +80,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void register() {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setCredential(node.getCredential());
+        RegisterRequest registerRequest = new RegisterRequest(node.getCredential());
         String msg = registerRequest.getMessageAsString(Constant.Command.REG);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(bootstrapServerCredential.getIp()), bootstrapServerCredential.getPort()));
