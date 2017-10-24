@@ -1,5 +1,6 @@
 package org.uom.cse.cs4262.api.message.response;
 
+import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 
 /**
@@ -12,8 +13,11 @@ public class JoinResponse extends Message {
 
     private int value;
 
-    public JoinResponse(int value) {
+    private Credential senderCredential;
+
+    public JoinResponse(int value, Credential senderCredential) {
         this.value = value;
+        this.senderCredential = senderCredential;
     }
 
     public int getValue() {
@@ -22,6 +26,14 @@ public class JoinResponse extends Message {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public Credential getSenderCredential() {
+        return senderCredential;
+    }
+
+    public void setSenderCredential(Credential senderCredential) {
+        this.senderCredential = senderCredential;
     }
 
     @Override
