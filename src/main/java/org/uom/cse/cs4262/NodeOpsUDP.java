@@ -228,7 +228,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                 for (Credential credential : credentialList) {
                     routingTable.add(credential);
                 }
-                System.out.println("Routing table updated as " + routingTable.toString());
+                printRoutingTable(routingTable);
                 //TODO: check whether the received nodes are alive before adding to routing table
                 this.node.setRoutingTable(routingTable);
                 this.regOk = true;
@@ -291,5 +291,15 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     public List<String> checkForFiles(String fileName, List<String> fileList) {
         Pattern pattern = Pattern.compile(fileName);
         return fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void printRoutingTable(ArrayList<Credential> routingTable) {
+        System.out.println("Routing table updated as :");
+        System.out.println("-----------------------------------------------------------");
+        for (Credential credential : routingTable) {
+            System.out.println("IP /t PORT /t UserName");
+            System.out.println(credential.getIp() + "/t" + credential.getPort() + "/t" + credential.getUsername());
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.SearchResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,4 +42,6 @@ public interface NodeOps {
     boolean isRegOk();
 
     List<String> checkForFiles(String fileName, List<String> fileList);
+
+    void printRoutingTable(ArrayList<Credential> routingTable);
 }
