@@ -36,4 +36,13 @@ public class RegisterResponse extends Message {
     public void setNoOfNodes(int noOfNodes) {
         this.noOfNodes = noOfNodes;
     }
+
+    @Override
+    public String getMessageAsString(String message) {
+        message += " " + this.getNoOfNodes();
+        for (Credential node : nodes) {
+            message += " " + node.getIp() + " " + node.getPort();
+        }
+        return super.getMessageAsString(message);
+    }
 }
