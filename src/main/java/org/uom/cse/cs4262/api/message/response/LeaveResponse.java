@@ -9,6 +9,7 @@ import org.uom.cse.cs4262.api.message.Message;
  */
 
 public class LeaveResponse extends Message {
+
     private int value;
 
     public LeaveResponse(int value) {
