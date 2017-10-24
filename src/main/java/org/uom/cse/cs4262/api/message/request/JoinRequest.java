@@ -12,6 +12,10 @@ public class JoinRequest extends Message {
 
     private Credential credential;
 
+    public JoinRequest(Credential credential) {
+        this.credential = credential;
+    }
+
     public Credential getCredential() {
         return credential;
     }
