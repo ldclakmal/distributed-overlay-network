@@ -31,7 +31,7 @@ public class TestNetwork {
 
         while (true) {
             if (nodeOpsUDP.isRegOk()) {
-                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "xxx", 0);
+                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
                 nodeOpsUDP.search(searchRequest);
             }
         }
