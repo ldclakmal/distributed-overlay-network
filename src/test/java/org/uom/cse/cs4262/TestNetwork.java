@@ -32,7 +32,7 @@ public class TestNetwork {
         while (true) {
             if (nodeOpsUDP.isRegOk()) {
                 SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
-                nodeOpsUDP.search(searchRequest);
+                nodeOpsUDP.triggerSearchRequest(searchRequest);
             }
         }
 

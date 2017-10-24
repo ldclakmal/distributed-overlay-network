@@ -244,17 +244,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
-            List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
-            if (!searchResult.isEmpty()) {
-                SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
-                searchOk(searchResponse);
-            } else {
-                for (Credential credential : node.getRoutingTable()) {
-                    searchRequest.setCredential(credential);
-                    searchRequest.setHops(searchRequest.incHops());
-                    search(searchRequest);
-                }
-            }
+            triggerSearchRequest(searchRequest);
 
         } else if (response instanceof SearchResponse) {
             SearchResponse searchResponse = (SearchResponse) response;
@@ -304,10 +294,32 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     @Override
     public void printRoutingTable(ArrayList<Credential> routingTable) {
         System.out.println("Routing table updated as :");
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
         for (Credential credential : routingTable) {
-            System.out.println("IP \t \t PORT");
+            System.out.println("IP \t \t \t PORT");
             System.out.println(credential.getIp() + "\t" + credential.getPort());
+        }
+    }
+
+    @Override
+    public void triggerSearchRequest(SearchRequest searchRequest) {
+        List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
+        if (!searchResult.isEmpty()) {
+
+            SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
+
+            if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
+                System.out.printf(searchResponse.toString());
+            } else {
+                searchOk(searchResponse);
+            }
+
+        } else {
+            for (Credential credential : node.getRoutingTable()) {
+                searchRequest.setCredential(credential);
+                searchRequest.setHops(searchRequest.incHops());
+                search(searchRequest);
+            }
         }
     }
 }

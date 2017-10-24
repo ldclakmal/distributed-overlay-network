@@ -44,4 +44,6 @@ public interface NodeOps {
     List<String> checkForFiles(String fileName, List<String> fileList);
 
     void printRoutingTable(ArrayList<Credential> routingTable);
+
+    void triggerSearchRequest(SearchRequest searchRequest);
 }
