@@ -5,7 +5,6 @@ import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.response.*;
 
-import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -18,8 +17,8 @@ import java.util.StringTokenizer;
 
 public class Parser {
 
-    public static Message parse(DatagramPacket datagramPacket) {
-        String message = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
+    public static Message parse(String message, Credential senderCredential) {
+
         System.out.println("Message received : " + message);
         StringTokenizer st = new StringTokenizer(message, " ");
 
@@ -45,8 +44,7 @@ public class Parser {
 
         } else if (command.equals(Constant.Command.JOINOK)) {
             int value = Integer.parseInt(st.nextToken());
-            Credential searchCredential = new Credential(datagramPacket.getAddress().getHostAddress(), datagramPacket.getPort(), null);
-            return new JoinResponse(value, searchCredential);
+            return new JoinResponse(value, senderCredential);
 
         } else if (command.equals(Constant.Command.LEAVEOK)) {
             int value = Integer.parseInt(st.nextToken());
