@@ -69,7 +69,7 @@ public class SearchResponse extends Message {
 
     @Override
     public String getMessageAsString(String message) {
-        message += " " + sequenceNo + " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
+        message += " " + sequenceNo + " " + this.getNoOfFiles() + " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
         for (String file : fileList) {
             message += " " + file;
         }
