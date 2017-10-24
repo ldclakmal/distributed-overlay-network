@@ -37,7 +37,6 @@ public class Parser {
                 nodes.add(new Credential(ip, port, null));
             }
             RegisterResponse registerResponse = new RegisterResponse(numOfNodes, nodes);
-            //TODO: split the message and create registerResponse object. Refer BootstrapServer.java class for tokenize
             return registerResponse;
 
         } else if (command.equals(Constant.Command.UNREGOK)) {
@@ -66,8 +65,7 @@ public class Parser {
             return new SearchResponse(numOfFiles, endNodeCredentials, hops, fileList);
 
         } else if (command.equals(Constant.Command.ERROR)) {
-            //TODO handle error response @Chandu
-
+            return new ErrorResponse();
         }
 
         return null;
