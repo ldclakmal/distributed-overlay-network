@@ -6,11 +6,10 @@ import org.uom.cse.cs4262.api.Node;
 import org.uom.cse.cs4262.api.NodeOps;
 import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.JoinRequest;
+import org.uom.cse.cs4262.api.message.request.LeaveRequest;
 import org.uom.cse.cs4262.api.message.request.RegisterRequest;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
-import org.uom.cse.cs4262.api.message.response.JoinResponse;
-import org.uom.cse.cs4262.api.message.response.RegisterResponse;
-import org.uom.cse.cs4262.api.message.response.SearchResponse;
+import org.uom.cse.cs4262.api.message.response.*;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -94,12 +93,12 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void join(Credential neighbourNode) {
+    public void join(Credential neighbourCredential) {
         JoinRequest joinRequest = new JoinRequest();
         joinRequest.setCredential(node.getCredential());
         String msg = joinRequest.getMessageAsString(Constant.Command.JOIN);
         try {
-            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourCredential.getIp()), neighbourCredential.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,8 +116,26 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void leave() {
+    public void leave(Credential neighbourNode) {
+        LeaveRequest leaveRequest = new LeaveRequest();
+        leaveRequest.setCredential(node.getCredential());
+        String msg = leaveRequest.getMessageAsString(Constant.Command.LEAVE);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourNode.getIp()), neighbourNode.getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void leaveOk(Credential senderCredentials) {
+        LeaveResponse leaveResponse = new LeaveResponse(0);
+        String msg = leaveResponse.getMessageAsString(Constant.Command.LEAVEOK);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredentials.getIp()), senderCredentials.getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -136,6 +153,17 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         String msg = searchResponse.getMessageAsString(Constant.Command.SEARCHOK);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(searchResponse.getCredential().getIp()), searchResponse.getCredential().getPort()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void error(Credential senderCredential) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        String msg = errorResponse.getMessageAsString(Constant.Command.ERROR);
+        try {
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(senderCredential.getIp()), senderCredential.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }

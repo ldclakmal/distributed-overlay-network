@@ -20,11 +20,13 @@ public interface NodeOps {
 
     void unRegister();
 
-    void join(Credential credential);
+    void join(Credential neighbourCredential);
 
-    void joinOk(Credential senderCredentials);
+    void joinOk(Credential senderCredential);
 
-    void leave();
+    void leave(Credential neighbourCredential);
+
+    void leaveOk(Credential senderCredential);
 
     void search(SearchRequest searchRequest);
 
@@ -33,6 +35,8 @@ public interface NodeOps {
     List<String> createFileList();
 
     void processResponse(Message response);
+
+    void error(Credential senderCredential);
 
     boolean isRegOk();
 
