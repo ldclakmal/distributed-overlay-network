@@ -19,9 +19,10 @@ public class SearchResponse extends Message {
     private int hops;
     private List<String> fileList;
 
-    public SearchResponse(int noOfFiles, Credential credential, int hops, List<String> fileList) {
+    public SearchResponse(int noOfFiles, Credential credential, int sequenceNo, int hops, List<String> fileList) {
         this.noOfFiles = noOfFiles;
         this.credential = credential;
+        this.sequenceNo = sequenceNo;
         this.hops = hops;
         this.fileList = fileList;
     }
