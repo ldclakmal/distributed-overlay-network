@@ -209,24 +209,31 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             RegisterResponse registerResponse = (RegisterResponse) response;
             if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_ALREADY_REGISTERED) {
                 System.out.println("Already registered at Bootstrap with same username");
-                //TODO: call unregister and register again with different username
+                Credential credential = node.getCredential();
+                credential.setUsername(credential.getUsername() + 1);
+                node.setCredential(credential);
+                register();
             } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_DUPLICATE_IP) {
                 System.out.println("Already registered at Bootstrap with same port");
                 Credential credential = node.getCredential();
                 credential.setPort(credential.getPort() + 1);
                 node.setCredential(credential);
                 register();
+            } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_CANNOT_REGISTER) {
+                System.out.printf("Can’t register. Bootstrap server full. Try again later");
+            } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_COMMAND) {
+                System.out.println("Error in command");
+            } else {
+                List<Credential> credentialList = registerResponse.getCredentials();
+                ArrayList<Credential> routingTable = new ArrayList();
+                for (Credential credential : credentialList) {
+                    routingTable.add(credential);
+                }
+                System.out.println("Routing table updated as " + routingTable.toString());
+                //TODO: check whether the received nodes are alive before adding to routing table
+                this.node.setRoutingTable(routingTable);
+                this.regOk = true;
             }
-            List<Credential> credentialList = registerResponse.getCredentials();
-            ArrayList<Credential> routingTable = new ArrayList();
-            for (Credential credential : credentialList) {
-                routingTable.add(credential);
-            }
-            System.out.println("Routing table updated as " + routingTable.toString());
-            //TODO: check whether the received nodes are alive before adding to routing table
-            this.node.setRoutingTable(routingTable);
-            this.regOk = true;
-
         } else if (response instanceof UnregisterResponse) {
             //TODO: set leave request for all of the nodes at routing table
             node.setRoutingTable(new ArrayList<>());
