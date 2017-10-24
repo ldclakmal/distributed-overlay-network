@@ -3,6 +3,7 @@ package org.uom.cse.cs4262;
 import org.junit.Test;
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
+import org.uom.cse.cs4262.api.message.request.SearchRequest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +28,17 @@ public class TestNetwork {
 
         // Register in network
         nodeOpsUDP.register();
+
+        while (true) {
+            if (nodeOpsUDP.isRegOk()) {
+                SearchRequest searchRequest = new SearchRequest();
+                searchRequest.setCredential(nodeOpsUDP.getNode().getCredential());
+                searchRequest.setFileName("");
+                searchRequest.setSequenceNo(1);
+                searchRequest.setHops(0);
+                nodeOpsUDP.search(searchRequest);
+            }
+        }
 
 
     }
