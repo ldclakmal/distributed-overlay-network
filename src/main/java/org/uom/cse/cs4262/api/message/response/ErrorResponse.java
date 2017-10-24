@@ -16,7 +16,7 @@ public class ErrorResponse extends Message {
 
     @Override
     public String toString() {
-        System.out.println("An error occurred");
-        return super.toString();
+        String response = "An error occurred";
+        return response;
     }
 }
