@@ -14,19 +14,19 @@ import java.util.List;
 public class RegisterResponse extends Message {
 
     private int noOfNodes;
-    private List<Credential> nodes;
+    private List<Credential> credentials;
 
-    public RegisterResponse(int noOfNodes, List<Credential> nodes) {
+    public RegisterResponse(int noOfNodes, List<Credential> credentials) {
         this.noOfNodes = noOfNodes;
-        this.nodes = nodes;
+        this.credentials = credentials;
     }
 
-    public List<Credential> getNodes() {
-        return nodes;
+    public List<Credential> getCredentials() {
+        return credentials;
     }
 
-    public void setNodes(List<Credential> nodes) {
-        this.nodes = nodes;
+    public void setCredentials(List<Credential> credentials) {
+        this.credentials = credentials;
     }
 
     public int getNoOfNodes() {
@@ -40,7 +40,7 @@ public class RegisterResponse extends Message {
     @Override
     public String getMessageAsString(String message) {
         message += " " + this.getNoOfNodes();
-        for (Credential node : nodes) {
+        for (Credential node : credentials) {
             message += " " + node.getIp() + " " + node.getPort();
         }
         return super.getMessageAsString(message);
