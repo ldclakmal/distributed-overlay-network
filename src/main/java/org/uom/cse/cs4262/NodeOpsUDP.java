@@ -206,21 +206,21 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     public void processResponse(Message response) {
         if (response instanceof RegisterResponse) {
             RegisterResponse registerResponse = (RegisterResponse) response;
-            if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_ALREADY_REGISTERED) {
+            if (registerResponse.getNoOfNodes() == Constant.Codes.Register.ERROR_ALREADY_REGISTERED) {
                 System.out.println("Already registered at Bootstrap with same username");
                 Credential credential = node.getCredential();
                 credential.setUsername(credential.getUsername() + 1);
                 node.setCredential(credential);
                 register();
-            } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_DUPLICATE_IP) {
+            } else if (registerResponse.getNoOfNodes() == Constant.Codes.Register.ERROR_DUPLICATE_IP) {
                 System.out.println("Already registered at Bootstrap with same port");
                 Credential credential = node.getCredential();
                 credential.setPort(credential.getPort() + 1);
                 node.setCredential(credential);
                 register();
-            } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_CANNOT_REGISTER) {
+            } else if (registerResponse.getNoOfNodes() == Constant.Codes.Register.ERROR_CANNOT_REGISTER) {
                 System.out.printf("Can’t register. Bootstrap server full. Try again later");
-            } else if (registerResponse.getNoOfNodes() == Constant.Codes.ERROR_COMMAND) {
+            } else if (registerResponse.getNoOfNodes() == Constant.Codes.Register.ERROR_COMMAND) {
                 System.out.println("Error in command");
             } else {
                 List<Credential> credentialList = registerResponse.getCredentials();
