@@ -69,7 +69,7 @@ public class SearchResponse extends Message {
 
     @Override
     public String getMessageAsString(String message) {
-        message += " " + sequenceNo + " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
+        message += " " + sequenceNo + " " + this.getNoOfFiles() + " " + this.getCredential().getIp() + " " + this.getCredential().getPort() + " " + this.getHops();
         for (String file : fileList) {
             message += " " + file;
         }
@@ -84,8 +84,8 @@ public class SearchResponse extends Message {
                 "\nIP: " + this.getCredential().getIp() +
                 "\nPort: " + this.getCredential().getPort() +
                 "\nHop count: " + this.getHops();
-        for (int i = 0; i < fileList.size(); i++) {
-            response += "\nFile " + i + ": " + fileList.get(i);
+        for (int i = 1; i <= fileList.size(); i++) {
+            response += "\nFile " + i + ": " + fileList.get(i - 1);
         }
 
         return response;

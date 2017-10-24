@@ -4,7 +4,6 @@ import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 import org.uom.cse.cs4262.api.message.response.SearchResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public interface NodeOps {
 
     void leaveOk(Credential senderCredential);
 
-    void search(SearchRequest searchRequest);
+    void search(SearchRequest searchRequest, Credential sendCredential);
 
     void searchOk(SearchResponse searchResponse);
 
@@ -43,5 +42,7 @@ public interface NodeOps {
 
     List<String> checkForFiles(String fileName, List<String> fileList);
 
-    void printRoutingTable(ArrayList<Credential> routingTable);
+    void triggerSearchRequest(SearchRequest searchRequest);
+
+    void printRoutingTable(List<Credential> routingTable);
 }

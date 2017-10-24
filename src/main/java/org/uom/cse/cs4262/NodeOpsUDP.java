@@ -13,10 +13,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -146,10 +143,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void search(SearchRequest searchRequest) {
+    public void search(SearchRequest searchRequest, Credential sendCredentials) {
         String msg = searchRequest.getMessageAsString(Constant.Command.SEARCH);
         try {
-            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(searchRequest.getCredential().getIp()), searchRequest.getCredential().getPort()));
+            socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(sendCredentials.getIp()), sendCredentials.getPort()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -200,7 +197,9 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         fileList.add("American Idol");
         fileList.add("Hacking for Dummies");
         Collections.shuffle(fileList);
-        return fileList.subList(0, 5);
+        List<String> subFileList = fileList.subList(0, 20);
+        System.out.println("File List : " + Arrays.toString(subFileList.toArray()));
+        return subFileList;
     }
 
     @Override
@@ -244,17 +243,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
         } else if (response instanceof SearchRequest) {
             SearchRequest searchRequest = (SearchRequest) response;
-            List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
-            if (!searchResult.isEmpty()) {
-                SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
-                searchOk(searchResponse);
-            } else {
-                for (Credential credential : node.getRoutingTable()) {
-                    searchRequest.setCredential(credential);
-                    searchRequest.setHops(searchRequest.incHops());
-                    search(searchRequest);
-                }
-            }
+            triggerSearchRequest(searchRequest);
 
         } else if (response instanceof SearchResponse) {
             SearchResponse searchResponse = (SearchResponse) response;
@@ -302,12 +291,36 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void printRoutingTable(ArrayList<Credential> routingTable) {
+    public void printRoutingTable(List<Credential> routingTable) {
         System.out.println("Routing table updated as :");
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
+        System.out.println("IP \t \t \t PORT");
         for (Credential credential : routingTable) {
-            System.out.println("IP \t \t PORT");
             System.out.println(credential.getIp() + "\t" + credential.getPort());
+        }
+    }
+
+    @Override
+    public void triggerSearchRequest(SearchRequest searchRequest) {
+        System.out.println("Triggered search request");
+        List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
+        if (!searchResult.isEmpty()) {
+            System.out.println("File is available");
+            SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
+            if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
+                System.out.println(searchResponse.toString());
+            } else {
+                System.out.println("Send SEARCHOK response message");
+                searchOk(searchResponse);
+            }
+
+        } else {
+            System.out.println("File is not available");
+            for (Credential credential : node.getRoutingTable()) {
+                searchRequest.setHops(searchRequest.incHops());
+                search(searchRequest, credential);
+                System.out.println("Send SER request message to " + credential.getIp() + " : " + credential.getPort());
+            }
         }
     }
 }
