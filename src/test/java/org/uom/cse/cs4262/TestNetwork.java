@@ -26,12 +26,15 @@ public class TestNetwork {
         nodeOpsUDP.register();
 
         while (true) {
+            System.out.println(" In while loop");
             if (nodeOpsUDP.isRegOk()) {
+                System.out.println("Is reg ok");
                 SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
-                return;
+                break;
             }
         }
+        while (true) ;
     }
 
     @Test
