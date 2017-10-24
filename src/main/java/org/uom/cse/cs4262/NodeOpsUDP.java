@@ -80,8 +80,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void register() {
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setCredential(node.getCredential());
+        RegisterRequest registerRequest = new RegisterRequest(node.getCredential());
         String msg = registerRequest.getMessageAsString(Constant.Command.REG);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(bootstrapServerCredential.getIp()), bootstrapServerCredential.getPort()));
@@ -126,8 +125,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
 
     @Override
     public void leave(Credential neighbourCredential) {
-        LeaveRequest leaveRequest = new LeaveRequest();
-        leaveRequest.setCredential(node.getCredential());
+        LeaveRequest leaveRequest = new LeaveRequest(node.getCredential());
         String msg = leaveRequest.getMessageAsString(Constant.Command.LEAVE);
         try {
             socket.send(new DatagramPacket(msg.getBytes(), msg.getBytes().length, InetAddress.getByName(neighbourCredential.getIp()), neighbourCredential.getPort()));

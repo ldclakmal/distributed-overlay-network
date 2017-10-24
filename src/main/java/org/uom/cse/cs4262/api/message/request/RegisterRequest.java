@@ -13,6 +13,10 @@ public class RegisterRequest extends Message {
 
     private Credential credential;
 
+    public RegisterRequest(Credential credential) {
+        this.credential = credential;
+    }
+
     public Credential getCredential() {
         return credential;
     }
