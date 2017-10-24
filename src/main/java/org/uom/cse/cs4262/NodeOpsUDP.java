@@ -292,11 +292,11 @@ public class NodeOpsUDP implements NodeOps, Runnable {
     }
 
     @Override
-    public void printRoutingTable(ArrayList<Credential> routingTable) {
+    public void printRoutingTable(List<Credential> routingTable) {
         System.out.println("Routing table updated as :");
         System.out.println("--------------------------------------------------------");
+        System.out.println("IP \t \t \t PORT");
         for (Credential credential : routingTable) {
-            System.out.println("IP \t \t \t PORT");
             System.out.println(credential.getIp() + "\t" + credential.getPort());
         }
     }
@@ -309,7 +309,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
 
             if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
-                System.out.printf(searchResponse.toString());
+                System.out.println(searchResponse.toString());
             } else {
                 searchOk(searchResponse);
             }
