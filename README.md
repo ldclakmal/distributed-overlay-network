@@ -8,8 +8,8 @@ Once the node is identified, the file can be exchanged between X and Y.
 # Dependencies
 
 ---
-- java_version: 1.8
-- maven_version: 3.5
+- java_version  : 1.8
+- maven_version : 3.5
 ---
 
 ## Set up the project
@@ -21,7 +21,7 @@ Once the node is identified, the file can be exchanged between X and Y.
 $ mvn clean install
 ```
 
-- Execute .jar file in each node providing following attributes
+- Execute `.jar` file created in `/target` directory in each node providing following attributes
 
 ```
 -b  ip of the bootstrapserver
