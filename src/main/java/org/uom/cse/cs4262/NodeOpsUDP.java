@@ -253,7 +253,6 @@ public class NodeOpsUDP implements NodeOps, Runnable {
                 System.out.println("Some other error");
             } else {
                 System.out.println("--------------------------------------------------------");
-                System.out.println("File is available at " + searchResponse.getCredential().getIp() + " : " + searchResponse.getCredential().getPort());
                 System.out.println(searchResponse.toString());
                 System.out.println("--------------------------------------------------------");
             }
