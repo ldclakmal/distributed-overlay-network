@@ -17,6 +17,9 @@ public class BootstrapNode {
 
     public static void main(String[] args) {
         Credential bootstrapServerCredential = new Credential(Constant.IP_BOOTSTRAP_SERVER, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
+        Map<Integer, String> searchQueryList = new HashMap<Integer, String>();
+        int sequentialNum = 0;
+        searchQueryList.put(++sequentialNum, "");
 
         // Generate self credentials
         int PORT_NODE = new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
@@ -32,7 +35,7 @@ public class BootstrapNode {
             System.out.println(" In while loop");
             if (nodeOpsUDP.isRegOk()) {
                 System.out.println("Is reg ok");
-                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
+                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Kung", 0);
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
                 break;
             }
