@@ -74,7 +74,7 @@ public class TestClass {
         List<String> matching = fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
 
         for (String s : matching) {
-            System.out.println(s);
+            Assert.assertTrue(s.equals("Twilight") || s.equals("Twilight saga") || s.equals("My Twilight"));
         }
     }
 }
