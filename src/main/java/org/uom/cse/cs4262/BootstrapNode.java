@@ -1,19 +1,27 @@
 package org.uom.cse.cs4262;
 
-import org.junit.Test;
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
-public class TestNetwork {
+/**
+ * @author Chanaka Lakmal
+ * @date 25/10/2017
+ * @since 1.0
+ */
 
-    @Test
-    public void testNetwork() {
+public class BootstrapNode {
+
+    public static void main(String[] args) {
         Credential bootstrapServerCredential = new Credential(Constant.IP_BOOTSTRAP_SERVER, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
+        Map<Integer, String> searchQueryList = new HashMap<Integer, String>();
+        int sequentialNum = 0;
+        searchQueryList.put(++sequentialNum, "");
 
         // Generate self credentials
         int PORT_NODE = new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
@@ -29,30 +37,11 @@ public class TestNetwork {
             System.out.println(" In while loop");
             if (nodeOpsUDP.isRegOk()) {
                 System.out.println("Is reg ok");
-                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Twilight", 0);
+                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Kung", 0);
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
                 break;
             }
         }
         while (true) ;
-    }
-
-    @Test
-    public void testSearch() {
-        List<String> fileList = new ArrayList<>();
-        fileList.add("Twilight");
-        fileList.add("Jack");
-        fileList.add("Jack and Jill");
-        fileList.add("Twilight saga");
-        fileList.add("My Twilight");
-        Collections.shuffle(fileList);
-        fileList = fileList.subList(0, 5);
-
-        Pattern pattern = Pattern.compile("Twilight");
-        List<String> matching = fileList.stream().filter(pattern.asPredicate()).collect(Collectors.toList());
-
-        for (String s : matching) {
-            System.out.println(s);
-        }
     }
 }
