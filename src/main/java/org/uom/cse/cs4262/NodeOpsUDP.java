@@ -252,7 +252,10 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             } else if (searchResponse.getNoOfFiles() == Constant.Codes.Search.ERROR_OTHER) {
                 System.out.println("Some other error");
             } else {
-                System.out.printf(searchResponse.toString());
+                System.out.println("--------------------------------------------------------");
+                System.out.println("File is available at " + searchResponse.getCredential().getIp() + " : " + searchResponse.getCredential().getPort());
+                System.out.println(searchResponse.toString());
+                System.out.println("--------------------------------------------------------");
             }
 
         } else if (response instanceof JoinRequest) {
@@ -315,7 +318,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             }
 
         } else {
-            System.out.println("File is not available in local node");
+            System.out.println("File is not available at " + node.getCredential().getIp() + " : " + node.getCredential().getPort());
             searchRequest.setHops(searchRequest.incHops());
             for (Credential credential : node.getRoutingTable()) {
                 search(searchRequest, credential);
