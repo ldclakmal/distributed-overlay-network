@@ -301,6 +301,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         for (Credential credential : routingTable) {
             System.out.println(credential.getIp() + "\t" + credential.getPort());
         }
+        System.out.println("--------------------------------------------------------");
     }
 
     @Override
