@@ -23,8 +23,10 @@ public class BootstrapNode {
 
         for (int i = 0; i < args.length; i = i + 2) {
             paramMap.put(args[i], args[i + 1]);
-            System.out.println(args[i] + " - " + args[i + 1]);
+            System.out.println(args[i] + " : " + args[i + 1]);
         }
+
+        System.out.println();
 
         String bootstrapIp = paramMap.get("-b") != null ? paramMap.get("-b") : Constant.IP_BOOTSTRAP_SERVER;
         String nodeIp = paramMap.get("-i") != null ? paramMap.get("-i") : Constant.IP_BOOTSTRAP_SERVER;
