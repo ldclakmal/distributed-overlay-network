@@ -21,9 +21,19 @@ Once the node is identified, the file can be exchanged between X and Y.
 $ mvn clean install
 ```
 
-- Execute .jar file in each node
+- Execute .jar file in each node providing following attributes
+
 ```
-$ java -jar idstack-cs4262.jar
+-b  ip of the bootstrapserver
+-i  ip of the node
+-p  port of the node
+-u  username of the node
+```
+
+#### Example
+
+```
+$ java -jar idstack-cs4262.jar -b 192.168.1.1 -i 10.10.0.1 -p 44444 -u node1
 ```
 
 ### Notes
