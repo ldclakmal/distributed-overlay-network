@@ -44,11 +44,13 @@ public class BootstrapNode {
 
         // Register in network
         nodeOpsUDP.register();
-
         while (true) {
-            System.out.println(" In while loop");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if (nodeOpsUDP.isRegOk()) {
-                System.out.println("Is reg ok");
                 SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Kung", 0);
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
                 break;

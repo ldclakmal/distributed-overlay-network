@@ -310,12 +310,12 @@ public class NodeOpsUDP implements NodeOps, Runnable {
             if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
                 System.out.println(searchResponse.toString());
             } else {
-                System.out.println("Send SEARCHOK response message to " + searchRequest.getCredential().getIp() + " : " + searchRequest.getCredential().getPort());
+                System.out.println("Send SEARCHOK response message");
                 searchOk(searchResponse);
             }
 
         } else {
-            System.out.println("File is not available at " + node.getCredential().getIp() + " : " + node.getCredential().getPort());
+            System.out.println("File is not available in local node");
             searchRequest.setHops(searchRequest.incHops());
             for (Credential credential : node.getRoutingTable()) {
                 search(searchRequest, credential);
