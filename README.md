@@ -7,15 +7,24 @@ Once the node is identified, the file can be exchanged between X and Y.
 
 # Dependencies
 
-## Linux
+---
+- java_version: 1.8
+- maven_version: 3.5
+---
 
+## Set up the project
 
-## Windows
+- Make a clone of this project
 
+- Build the project in order to create `.jar` file
+```
+$ mvn clean install
+```
 
-## Mac
+- Execute .jar file in each node
+```
+$ java -jar idstack-cs4262.jar
+```
 
-
-# How to execute?
-## Notes
-Before start nodes bootstrap server should start
+### Notes
+Before start nodes bootstrap server should start.

@@ -305,8 +305,8 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         System.out.println("Triggered search request");
         List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
         if (!searchResult.isEmpty()) {
-            System.out.println("File is available");
-            SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
+            System.out.println("File is available at " + node.getCredential().getIp() + " : " + node.getCredential().getPort());
+            SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.getHops(), searchResult);
             if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
                 System.out.println(searchResponse.toString());
             } else {

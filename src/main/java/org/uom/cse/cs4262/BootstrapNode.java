@@ -18,25 +18,39 @@ import java.util.UUID;
 public class BootstrapNode {
 
     public static void main(String[] args) {
-        Credential bootstrapServerCredential = new Credential(Constant.IP_BOOTSTRAP_SERVER, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
-        Map<Integer, String> searchQueryList = new HashMap<Integer, String>();
+
+        HashMap<String, String> paramMap = new HashMap<>();
+
+        for (int i = 0; i < args.length; i = i + 2) {
+            paramMap.put(args[i], args[i + 1]);
+            System.out.println(args[i] + " - " + args[i + 1]);
+        }
+
+        String bootstrapIp = paramMap.get("-b") != null ? paramMap.get("-b") : Constant.IP_BOOTSTRAP_SERVER;
+        String nodeIp = paramMap.get("-i") != null ? paramMap.get("-i") : Constant.IP_BOOTSTRAP_SERVER;
+        int nodePort = paramMap.get("-p") != null ? Integer.parseInt(paramMap.get("-p")) : new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
+        String nodeUsername = paramMap.get("-u") != null ? paramMap.get("-u") : UUID.randomUUID().toString();
+
+        Credential bootstrapServerCredential = new Credential(bootstrapIp, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
+        Map<Integer, String> searchQueryList = new HashMap<>();
         int sequentialNum = 0;
         searchQueryList.put(++sequentialNum, "");
 
         // Generate self credentials
-        int PORT_NODE = new Random().nextInt(Constant.MAX_PORT_NODE - Constant.MIN_PORT_NODE) + Constant.MIN_PORT_NODE;
-        Credential nodeCredential = new Credential(Constant.IP_NODE, PORT_NODE, UUID.randomUUID().toString());
+        Credential nodeCredential = new Credential(nodeIp, nodePort, nodeUsername);
 
         // Initiate the thread for UDP connection
         NodeOpsUDP nodeOpsUDP = new NodeOpsUDP(bootstrapServerCredential, nodeCredential);
 
         // Register in network
         nodeOpsUDP.register();
-
         while (true) {
-            System.out.println(" In while loop");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if (nodeOpsUDP.isRegOk()) {
-                System.out.println("Is reg ok");
                 SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Kung", 0);
                 nodeOpsUDP.triggerSearchRequest(searchRequest);
                 break;
