@@ -1,7 +1,9 @@
 package org.uom.cse.cs4262;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.uom.cse.cs4262.api.message.Message;
+import org.uom.cse.cs4262.api.message.request.*;
 import org.uom.cse.cs4262.api.message.response.*;
 
 import java.util.ArrayList;
@@ -11,6 +13,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TestClass {
+
+    public String REG = "0036 REG 129.82.123.45 5001 1234abcd";
+    public String UNREG = "0028 UNREG 64.12.123.190 432 1234abcd";
+    public String JOIN = "0027 JOIN 64.12.123.190 432";
+    public String LEAVE = "0028 LEAVE 64.12.123.190 432";
+    public String SER = "0047 SER 12 129.82.62.142 5070 \"Lordoftherings\" 10";
 
     public String REGOK = "0051 REGOK 2 129.82.123.45 5001 64.12.123.190 34001";
     public String UNROK = "0012 UNROK 0";
@@ -23,17 +31,32 @@ public class TestClass {
     public void testParser() {
         Parser parser = new Parser();
         Message msgObject1 = parser.parse(REGOK, null);
-        System.out.println(msgObject1 instanceof RegisterResponse);
+        Assert.assertTrue(msgObject1 instanceof RegisterResponse);
         Message msgObject2 = parser.parse(UNROK, null);
-        System.out.println(msgObject2 instanceof UnregisterResponse);
+        Assert.assertTrue(msgObject2 instanceof UnregisterResponse);
         Message msgObject3 = parser.parse(JOINOK, null);
-        System.out.println(msgObject3 instanceof JoinResponse);
+        Assert.assertTrue(msgObject3 instanceof JoinResponse);
         Message msgObject4 = parser.parse(LEAVEOK, null);
-        System.out.println(msgObject4 instanceof LeaveResponse);
+        Assert.assertTrue(msgObject4 instanceof LeaveResponse);
         Message msgObject5 = parser.parse(SEROK, null);
-        System.out.println(msgObject5 instanceof SearchResponse);
+        Assert.assertTrue(msgObject5 instanceof SearchResponse);
         Message msgObject6 = parser.parse(ERROROK, null);
-        System.out.println(msgObject6 instanceof ErrorResponse);
+        Assert.assertTrue(msgObject6 instanceof ErrorResponse);
+    }
+
+    @Test
+    public void testParserRequests() {
+        Parser parser = new Parser();
+        Message msgObject1 = parser.parse(REG, null);
+        Assert.assertTrue(msgObject1 instanceof RegisterRequest);
+        Message msgObject2 = parser.parse(UNREG, null);
+        Assert.assertTrue(msgObject2 instanceof UnregisterRequest);
+        Message msgObject3 = parser.parse(JOIN, null);
+        Assert.assertTrue(msgObject3 instanceof JoinRequest);
+        Message msgObject4 = parser.parse(LEAVE, null);
+        Assert.assertTrue(msgObject4 instanceof LeaveRequest);
+        Message msgObject5 = parser.parse(SER, null);
+        Assert.assertTrue(msgObject5 instanceof SearchRequest);
     }
 
     @Test
