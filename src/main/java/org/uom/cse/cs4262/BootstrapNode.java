@@ -4,10 +4,7 @@ import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
 import org.uom.cse.cs4262.api.message.request.SearchRequest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Chanaka Lakmal
@@ -32,9 +29,9 @@ public class BootstrapNode {
         String nodeUsername = paramMap.get("-u") != null ? paramMap.get("-u") : UUID.randomUUID().toString();
 
         Credential bootstrapServerCredential = new Credential(bootstrapIp, Constant.PORT_BOOTSTRAP_SERVER, Constant.USERNAME_BOOTSTRAP_SERVER);
-        Map<Integer, String> searchQueryList = new HashMap<>();
-        int sequentialNum = 0;
-        searchQueryList.put(++sequentialNum, "");
+        Map<Integer, String> searchQueryTable = new HashMap<>();
+        List<String> searchQueries = Arrays.asList("Twilight", "Jack", "American_Idol", "Happy_Feet", "Twilight_saga", "Happy_Feet", "Feet");
+        Collections.shuffle(searchQueries);
 
         // Generate self credentials
         Credential nodeCredential = new Credential(nodeIp, nodePort, nodeUsername);
@@ -51,11 +48,20 @@ public class BootstrapNode {
                 e.printStackTrace();
             }
             if (nodeOpsUDP.isRegOk()) {
-                SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), "Kung", 0);
-                nodeOpsUDP.triggerSearchRequest(searchRequest);
+                for (int i = 0; i < searchQueries.size(); i++) {
+                    searchQueryTable.put(i, searchQueries.get(i));
+                    SearchRequest searchRequest = new SearchRequest(1, nodeOpsUDP.getNode().getCredential(), searchQueryTable.get(i), 0);
+                    nodeOpsUDP.triggerSearchRequest(searchRequest);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             }
         }
+
         while (true) ;
     }
 }
