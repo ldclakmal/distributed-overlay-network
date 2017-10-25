@@ -18,7 +18,7 @@ public class TestClass {
     public String UNREG = "0028 UNREG 64.12.123.190 432 1234abcd";
     public String JOIN = "0027 JOIN 64.12.123.190 432";
     public String LEAVE = "0028 LEAVE 64.12.123.190 432";
-    public String SER = "0047 SER 12 129.82.62.142 5070 \"Lordoftherings\" 10";
+    public String SER = "0047 SER 12 129.82.62.142 5070 Lord_of_the_rings 10";
 
     public String REGOK = "0051 REGOK 2 129.82.123.45 5001 64.12.123.190 34001";
     public String UNROK = "0012 UNROK 0";
