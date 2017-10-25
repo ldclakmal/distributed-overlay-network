@@ -298,6 +298,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         for (Credential credential : routingTable) {
             System.out.println(credential.getIp() + "\t" + credential.getPort());
         }
+        System.out.println("--------------------------------------------------------");
     }
 
     @Override
@@ -305,7 +306,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         System.out.println("Triggered search request");
         List<String> searchResult = checkForFiles(searchRequest.getFileName(), node.getFileList());
         if (!searchResult.isEmpty()) {
-            System.out.println("File is available");
+            System.out.println("File is available in local node");
             SearchResponse searchResponse = new SearchResponse(searchRequest.getSequenceNo(), searchResult.size(), searchRequest.getCredential(), searchRequest.incHops(), searchResult);
             if (searchRequest.getCredential().getIp() == node.getCredential().getIp() && searchRequest.getCredential().getPort() == node.getCredential().getPort()) {
                 System.out.println(searchResponse.toString());
