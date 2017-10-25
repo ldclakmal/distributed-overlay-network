@@ -197,7 +197,7 @@ public class NodeOpsUDP implements NodeOps, Runnable {
         fileList.add("American Idol");
         fileList.add("Hacking for Dummies");
         Collections.shuffle(fileList);
-        List<String> subFileList = fileList.subList(0, 20);
+        List<String> subFileList = fileList.subList(0, 5);
         System.out.println("File List : " + Arrays.toString(subFileList.toArray()));
         return subFileList;
     }
