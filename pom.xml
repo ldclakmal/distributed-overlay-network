@@ -28,6 +28,8 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <finalName>idstack-cs4262</finalName>
     </build>
 
     <properties>
