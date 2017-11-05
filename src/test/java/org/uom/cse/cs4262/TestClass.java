@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.uom.cse.cs4262.api.message.Message;
 import org.uom.cse.cs4262.api.message.request.*;
 import org.uom.cse.cs4262.api.message.response.*;
+import org.uom.cse.cs4262.feature.Parser;
 
 import java.util.ArrayList;
 import java.util.Collections;

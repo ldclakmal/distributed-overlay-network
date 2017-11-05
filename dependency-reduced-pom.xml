@@ -28,7 +28,7 @@
                             <transformers>
                                 <transformer>
                                     <manifestEntries>
-                                        <Main-Class>org.uom.cse.cs4262.BootstrapNode</Main-Class>
+                                        <Main-Class>org.uom.cse.cs4262.controller.udp.BootstrapNode</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
