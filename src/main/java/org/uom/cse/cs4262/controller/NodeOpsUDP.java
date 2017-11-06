@@ -1,4 +1,4 @@
-package org.uom.cse.cs4262.controller.udp;
+package org.uom.cse.cs4262.controller;
 
 import org.uom.cse.cs4262.api.Constant;
 import org.uom.cse.cs4262.api.Credential;
